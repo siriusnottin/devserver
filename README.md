@@ -40,7 +40,7 @@ virsh shutdown <vmname>
 ### Allocate more space
 
 ```bash
-qemu-img info
+qemu-img info <image>
 qemu-img resize <image> <size>G
 ```
 
@@ -58,7 +58,7 @@ The settings that I use to setup my VM. If a setting is not listed here, it's th
 - Shares
   - `/projects`: all my local git repos.
   - `/virtualbox`: my virtualbox machines.
-- Network bridge: br0: so the vm is like a physical computer on my network.
+- Network bridge: br0 (so the vm is like a physical computer on my network.)
 
 [XML file for the vm](/devserver_ubuntu.xml) • [Unraid setup]() • [Unraid share setup]()
 
