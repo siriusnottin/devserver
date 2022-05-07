@@ -115,10 +115,10 @@ gh auth login
 gh auth setup-git
 ```
 
-Todo: More software to install.
+Todo: More software to install:
 
-- zsh
-- sync my dotfiles
+- ohmyzsh, zsh
+- sync my dotfiles and plugins
 - trellis
 - vagrant
 
