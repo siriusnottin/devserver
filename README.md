@@ -113,6 +113,12 @@ brew install gh
 
 gh auth login
 gh auth setup-git
+
+# Git
+git config --global init.defaultBranch main
+git config --global user.name "Sirius Nottin"
+# https://github.com/settings/emails
+git config --global user.email "my@email"
 ```
 
 Todo: More software to install:
