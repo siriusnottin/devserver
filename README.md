@@ -86,7 +86,7 @@ sudo echo "AllowStreamLocalForwarding yes" >> /etc/ssh/sshd_config
 sudo systemctl restart sshd
 ```
 
-✅ **We can now connect to the vm with VS Code remotely.**
+✅ **After following the [local setup](#local-setup), you should be able to connect to the vm with VS Code remotely.**
 
 👀 Continue reading for additional software setup.
 
