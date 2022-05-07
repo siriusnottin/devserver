@@ -70,7 +70,8 @@ On the vm first boot:
 
 1. Setup the server name, user and password. (and a **fixed IP**, regarding your network setup.)
 2. Add ssh key to the vm. ([Maybe create a new one?](https://code.visualstudio.com/docs/remote/troubleshooting#_improving-your-security-with-a-dedicated-key))
-3. Mount the shares: ([edit the fstab file](https://forums.unraid.net/topic/71600-unraid-vm-shares/?do=findComment&comment=658008))
+3. ssh into the vm ([see local setup](#local-hosts)): `ssh devserver`
+4. Mount the shares: ([edit the fstab file](https://forums.unraid.net/topic/71600-unraid-vm-shares/?do=findComment&comment=658008))
 
 ```bash
 mkdir {/home/sirius/projects,/home/sirius/virtualbox}
