@@ -50,7 +50,7 @@ qemu-img resize <image> <size>G
 
 The settings that I use to setup my VM. If a setting is not listed here, it's the default value.
 
-- OS: Ubuntu Server 22.04 LTS
+- OS: [Ubuntu Server 22.04 LTS](https://ubuntu.com/download/server)
 - 2 CPUs (Host passthrough)
 - 4Go RAM
 - BIOS: SeaBIOS
