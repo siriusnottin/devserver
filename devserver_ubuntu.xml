@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<domain type='kvm' id='6'>
+<domain type='kvm' id='3'>
   <name>Dev Server</name>
-  <uuid>71af6c86-5c09-4578-faad-214e461e638e</uuid>
+  <uuid>d406c83e-d40e-d307-2480-7930524e672a</uuid>
   <metadata>
     <vmtemplate xmlns="unraid" name="Ubuntu" icon="ubuntu.png" os="ubuntu"/>
   </metadata>
-  <memory unit='KiB'>12582912</memory>
-  <currentMemory unit='KiB'>12582912</currentMemory>
+  <memory unit='KiB'>4194304</memory>
+  <currentMemory unit='KiB'>4194304</currentMemory>
   <memoryBacking>
     <nosharepages/>
   </memoryBacking>
@@ -54,7 +54,7 @@
       <driver name='qemu' type='raw'/>
       <source file='/mnt/user/isos/ubuntu-22.04-live-server-amd64.iso' index='1'/>
       <backingStore/>
-      <target dev='hda' bus='sata'/>
+      <target dev='hda' bus='sata' tray='open'/>
       <readonly/>
       <boot order='2'/>
       <alias name='sata0-0-0'/>
@@ -133,7 +133,7 @@
       <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x6'/>
     </controller>
     <filesystem type='mount' accessmode='passthrough'>
-      <source dir='/mnt/user/projects/'/>
+      <source dir='/mnt/user/projects'/>
       <target dir='projects'/>
       <alias name='fs0'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
@@ -145,7 +145,7 @@
       <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
     </filesystem>
     <interface type='bridge'>
-      <mac address='52:54:00:7a:7f:5c'/>
+      <mac address='52:54:00:2b:9e:e8'/>
       <source bridge='br0'/>
       <target dev='vnet0'/>
       <model type='virtio-net'/>
@@ -165,7 +165,7 @@
       <alias name='serial0'/>
     </console>
     <channel type='unix'>
-      <source mode='bind' path='/var/lib/libvirt/qemu/channel/target/domain-6-Dev Server/org.qemu.guest_agent.0'/>
+      <source mode='bind' path='/var/lib/libvirt/qemu/channel/target/domain-3-Dev Server/org.qemu.guest_agent.0'/>
       <target type='virtio' name='org.qemu.guest_agent.0' state='disconnected'/>
       <alias name='channel0'/>
       <address type='virtio-serial' controller='0' bus='0' port='1'/>

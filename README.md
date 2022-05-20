@@ -1,6 +1,6 @@
 # My dev server setup
 
-My setup for my development environment in a virtual machine. It's still a work in progress. The vm is running on my home lab with unraid. [See the specs here]().
+My setup for my development environment in a virtual machine. **It's still a work in progress**. The vm is running on my home lab with Unraid.
 
 I use this repo to share my setup and what I learned along the way. Also in case I need to restart from scratch :)
 
@@ -13,21 +13,16 @@ I use this repo to share my setup and what I learned along the way. Also in case
     - [Allocate more space](#allocate-more-space)
   - [VM Specs](#vm-specs)
   - [VM Setup](#vm-setup)
-  - [Software install and setup](#software-install-and-setup)
   - [Local Setup](#local-setup)
     - [Local hosts](#local-hosts)
     - [VS Code](#vs-code)
     - [iTerm2 + tmux = ❤️](#iterm2--tmux--️)
+  - [Todo](#todo)
   - [Reflexion on the setup](#reflexion-on-the-setup)
     - [The VM and Unraid setup](#the-vm-and-unraid-setup)
     - [Files syncronization](#files-syncronization)
-    - [VirtualBox](#virtualbox)
 
 ## Usefull commands
-
-<details>
-
-<summary>Show usefull commands</summary>
 
 ### Manage VMs
 
@@ -44,14 +39,12 @@ qemu-img info <image>
 qemu-img resize <image> <size>G
 ```
 
-</details>
-
 ## VM Specs
 
 The settings that I use to setup my VM. If a setting is not listed here, it's the default value.
 
 - OS: [Ubuntu Server 22.04 LTS](https://ubuntu.com/download/server)
-- 2 CPUs (Host passthrough)
+- 4 CPUs (Host passthrough)
 - 4Go RAM
 - BIOS: SeaBIOS
 - vDisk size: 10G (my files are on a share bellow)
@@ -68,76 +61,29 @@ The settings that I use to setup my VM. If a setting is not listed here, it's th
 
 On the vm first boot:
 
-1. Setup the server name, user and password. (and a **fixed IP**, regarding your network setup.)
-2. Add ssh key to the vm. ([Maybe create a new one?](https://code.visualstudio.com/docs/remote/troubleshooting#_improving-your-security-with-a-dedicated-key))
-3. ssh into the vm ([see local setup](#local-hosts)): `ssh devserver`
-4. Mount the shares: ([edit the fstab file](https://forums.unraid.net/topic/71600-unraid-vm-shares/?do=findComment&comment=658008))
+1. Keep all default settings. Set or Note the IP address depending on your network configuration.
+2. Setup the server name, user and password.
+3. Add ssh key to the vm. ([Maybe create a new one?](https://code.visualstudio.com/docs/remote/troubleshooting#_improving-your-security-with-a-dedicated-key))
+
+Now
+ssh into the vm ([see local setup](#local-hosts)) and clone this repo and execute the script:
 
 ```bash
-mkdir {/home/sirius/projects,/home/sirius/virtualbox}
-sudo echo -e "projects \t /home/sirius/projects \t 9p \t trans=virtio,version=9p2000.L,_netdev,rw 0 0" >> /etc/fstab
-sudo echo -e "virtualbox \t /home/sirius/virtualbox \t 9p \t trans=virtio,version=9p2000.L,_netdev,rw 0 0" >> /etc/fstab
-sudo mount -a
+ssh devserver
+git clone https://github.com/siriusnottin/devserversetup.git
+cd devserversetup
+./setup.sh
 ```
-
-If multiple users, [for aditionnal security](https://code.visualstudio.com/docs/remote/troubleshooting#_improving-security-on-multi-user-servers):
-
-```bash
-sudo echo "AllowStreamLocalForwarding yes" >> /etc/ssh/sshd_config
-sudo systemctl restart sshd
-```
-
-✅ **After following the [local setup](#local-setup), you should be able to connect to the vm with VS Code remotely.**
-
-👀 Continue reading for additional software setup.
-
-## Software install and setup
-
-```bash
-# Software update
-sudo apt-get update && sudo apt-get upgrade -y
-
-# Tree
-sudo apt-get install tree
-
-# Homebrew (https://brew.sh/)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/sirius/.bash_profile
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-sudo apt-get install build-essential
-brew install gcc
-
-# GitHub CLI (https://github.com/cli/cli)
-brew install gh
-
-gh auth login
-gh auth setup-git
-
-# Git
-git config --global init.defaultBranch main
-git config --global user.name "Sirius Nottin"
-# https://github.com/settings/emails
-git config --global user.email "my@email"
-```
-
-Todo: More software to install:
-
-- ohmyzsh, zsh
-- sync my dotfiles and plugins
-- trellis
-- vagrant
 
 ## Local Setup
 
 ### Local hosts
 
-Also for sake of convenience:
-
-On my **local machine** I configure the hosts file for easy access to the vm:
-
+Setup script for the local machine:
+  
 ```bash
-sudo echo -e "192.168.0.18\tdevserver" >> /etc/hosts
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/siriusnottin/devserversetup/main/local_setup.sh)"
+./local_setup.sh
 ```
 
 ### VS Code
@@ -162,7 +108,10 @@ My setup is the same as their example (for now):
 1. local tmux profile: `/usr/local/bin/tmux -CC new -A -s main`
 2. devserver tmux profile: `ssh -t devserver 'tmux -CC new -A -s main'`
 
-I can't believe I didn't use tmux before, it's a life saver and so easy to use!
+## Todo
+
+- [X] Make a script. (not tested yet! wait for the next install)
+- [ ] Use [Starship theme](https://github.com/starship/starship): I did not succeded setting up this theme with znap.
 
 ## Reflexion on the setup
 
@@ -170,16 +119,12 @@ I can't believe I didn't use tmux before, it's a life saver and so easy to use!
 
 Well, it's all a WIP and woul love to try Proxmox or something else later to compare.
 
-Also, I was a bit generous with the ram and cpu settings. (see the [VS Code requirements](https://code.visualstudio.com/docs/remote/ssh#_system-requirements))
+Also, I am still testing out the ram and cpu settings. (see the [VS Code requirements](https://code.visualstudio.com/docs/remote/ssh#_system-requirements))
 
 ### Files syncronization
 
 I don't know yet if I should use `rsync` instead of an `unraid share` mounted on the vm, see the [remote development tips and tricks](https://code.visualstudio.com/docs/remote/troubleshooting#_using-rsync-to-maintain-a-local-copy-of-your-source-code) from the VS Code documentation.
 
-For me in the absolute, it's ideal to use the unraid share so I can setup the smallest size for the vDisk and let the rest be dynamic (it's hard to resize the partitions 😅); for now I am experiencing some performance issues with Git… Any ideas regarding that? [Please comment on the Discussions section]()!
+For me in the absolute, it's ideal to use the unraid share so I can setup the smallest size for the vDisk and let the rest be dynamic ; for now I am experiencing some performance issues with Git…
 
-### VirtualBox
-
-I have not succeeded installing/using virtualbox for the moment.
-
-**Quick links** [Home Lab project](https://nottin.me/lab) • [Renovation project](https://siriusrenove.fr) • [Website](https://nottin.me) • [Twitter](https://twitter.com/siriusnottin)
+**Quick links:** [Home Lab project](https://nottin.me/lab) • [Renovation project](https://siriusrenove.fr) • [Website](https://nottin.me) • [Twitter](https://twitter.com/siriusnottin)
