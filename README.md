@@ -83,7 +83,6 @@ Setup script for the local machine:
   
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/siriusnottin/devserversetup/main/local_setup.sh)"
-./local_setup.sh
 ```
 
 ### VS Code
