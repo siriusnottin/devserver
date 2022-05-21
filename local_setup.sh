@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 read -p 'Server IP address: ' SERVER_IP
 echo Adding $SERVER_IP with host name \"devserver\" to the hosts file
