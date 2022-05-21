@@ -12,6 +12,9 @@ znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 znap source supercrabtree/k
 
+# Homebrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # https://github.com/roots/trellis-cli#virtualenv
 znap function _trellis trellis              'eval "$(trellis shell-init zsh)"'
 compctl -K    _trellis trellis
