@@ -265,7 +265,9 @@ sudo apt install -y python3 python-is-python3 python3-pip
 success "Python installed"
 
 # https://github.com/roots/trellis-cli#quick-install-macos-and-linux-via-homebrew
+info "Installing Trellis CLI..."
 brew_check roots/tap/trellis-cli
+success "Trellis CLI installed"
 
 # https://virtualenv.pypa.io/en/latest/installation.html
 # https://gist.github.com/frfahim/73c0fad6350332cef7a653bcd762f08d
