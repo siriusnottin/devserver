@@ -279,12 +279,12 @@ success "virtualenv installed"
 # See also: https://linuxize.com/post/how-to-install-virtualbox-on-ubuntu-20-04/
 info "Installing VirtualBox"
 sudo apt install -y virtualbox
-success "VirtualBox installed"
+success "VirtualBox installed ($(vboxmanage --version))"
 
 # Vagrant (https://www.vagrantup.com/downloads)
 info "Installing Vagrant"
 sudo apt install -y vagrant
-success "Vagrant installed"
+success "Vagrant installed ($(vagrant -v))"
 
 # ==============================================================================
 # NVM (https://github.com/nvm-sh/nvm#install--update-script)
