@@ -90,7 +90,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/siriusnottin/devserversetu
 See the official documentation : [VS Code remote overview](https://code.visualstudio.com/docs/remote/remote-overview)
 
 1. Install the [Remote Development extension pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
-2. Well, I don't have [multiple users on the vm](https://code.visualstudio.com/docs/remote/ssh#_ssh-host-setup), but we never know. On the local VS Code settings, set this to true:
+2. If you have [multiple users on the vm](https://code.visualstudio.com/docs/remote/ssh#_ssh-host-setup). On the local VS Code settings, set this to true:
 
 ```json
 "remote.SSH.remoteServerListenOnSocket": true
