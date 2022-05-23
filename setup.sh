@@ -286,6 +286,12 @@ info "Installing Vagrant"
 sudo apt install -y vagrant
 success "Vagrant installed ($(vagrant -v))"
 
+# Update vagrant-libvirt plugin
+# https://www.vagrantup.com/docs/cli/plugin#local-1
+info "Updating the vagrant-libvirt to the latest version"
+vagrant plugin install --local vagrant-libvirt
+success "vagrant-libvirt updated"
+
 # ==============================================================================
 # NVM (https://github.com/nvm-sh/nvm#install--update-script)
 # ==============================================================================
