@@ -57,7 +57,7 @@ do
 
   if ! grep -qs "/${share}" /etc/fstab; then
     info "Adding ${share} to fstab"
-    echo -e "${share}    ${HOME}/${share}    9p    trans=virtio,version=9p2000.L,_netdev,rw 0 0" | sudo tee -a /etc/fstab
+    echo -e "//192.168.0.23/${share}	${HOME}/${share}	cifs	credentials=/home/sirius/.smb_credentials,auto,user,uid=$(id -u),gid=$(id -g),forceuid,forcegid,exec,rw,sync,atime	0 0" | sudo tee -a /etc/fstab
     success "$share added to fstab"
   fi
 
