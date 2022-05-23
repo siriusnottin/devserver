@@ -72,7 +72,7 @@ ssh into the vm ([see local setup](#local-hosts)) and clone this repo and execut
 ssh devserver
 git clone https://github.com/siriusnottin/devserversetup.git
 cd devserversetup
-./setup.sh
+./server_setup.sh
 ```
 
 ## Local Setup
