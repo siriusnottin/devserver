@@ -14,7 +14,6 @@ I use this repo to share my setup and what I learned along the way. Also in case
   - [VM Specs](#vm-specs)
   - [VM Setup](#vm-setup)
   - [Local Setup](#local-setup)
-    - [Local hosts](#local-hosts)
     - [VS Code](#vs-code)
     - [iTerm2 + tmux = ❤️](#iterm2--tmux--️)
   - [Todo](#todo)
@@ -47,42 +46,37 @@ The settings that I use to setup my VM. If a setting is not listed here, it's th
 - 4 CPUs (Host passthrough)
 - 4Go RAM
 - BIOS: SeaBIOS
-- vDisk size: 10G (my files are on a share bellow)
+- vDisk size: 40G (my files are on a share bellow)
 - Shares
-  - `/projects`: all my local git repos.
-  - `/virtualbox`: my virtualbox machines.
+  - `/mnt/projects`: all my git repos.
+  - `/mnt/virtualbox`: my virtualbox machines.
 - Network bridge: br0 (so the vm is like a physical computer on my network.)
 
 [XML file for the vm](/devserver_ubuntu.xml) • [Unraid setup]() • [Unraid share setup]()
 
 ## VM Setup
 
-**Make sure to set a fixed IP address for the VM.**
-
 On the vm first boot:
 
-1. Keep all default settings. Set or Note the IP address depending on your network configuration.
+1. Keep all default settings.
 2. Setup the server name, user and password.
 3. Add ssh key to the vm. ([Maybe create a new one?](https://code.visualstudio.com/docs/remote/troubleshooting#_improving-your-security-with-a-dedicated-key))
 
-Now
-ssh into the vm ([see local setup](#local-hosts)) and clone this repo and execute the script:
+Now ssh into the vm ([see local setup](#local-hosts)) and clone this repo and execute the script:
 
 ```bash
 ssh devserver
-git clone https://github.com/siriusnottin/devserversetup.git
-cd devserversetup
-./server_setup.sh
+git clone https://github.com/siriusnottin/devserver.git ~/.devserver
+$(sudo ln -s ~/.devserver/script/devserver.sh /usr/local/bin/devserver)
+devserver setup # h or help to see the commands
 ```
 
 ## Local Setup
 
-### Local hosts
-
-Setup script for the local machine:
-  
 ```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/siriusnottin/devserversetup/main/local_setup.sh)"
+git clone https://github.com/siriusnottin/devserver.git ~/.devserver
+$(ln -s ~/.devserver/script/devserver.sh /usr/local/bin/devserver)
+devserver local
 ```
 
 ### VS Code
@@ -109,7 +103,7 @@ My setup is the same as their example (for now):
 
 ## Todo
 
-- [X] Make a script. (not tested yet! wait for the next install)
+- [X] Make a script.
 - [ ] Use [Starship theme](https://github.com/starship/starship): I did not succeded setting up this theme with znap.
 
 ## Reflexion on the setup

@@ -1,10 +1,10 @@
 source ~/.zsh-plugins/zsh-snap/znap.zsh
 
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 
 znap source ohmyzsh/ohmyzsh
 
-znap prompt ohmyzsh/ohmyzsh robbyrussell
+# znap prompt ohmyzsh/ohmyzsh robbyrussell
 
 plugins=(npm wp-cli git zsh-interactive-cd)
 
@@ -16,8 +16,8 @@ znap source supercrabtree/k
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # https://github.com/roots/trellis-cli#virtualenv
-znap function _trellis trellis              'eval "$(trellis shell-init zsh)"'
-compctl -K    _trellis trellis
+znap function _trellis trellis 'eval "$(trellis shell-init zsh)"'
+compctl -K _trellis trellis
 
 # NVM
 export NVM_COMPLETION=true
@@ -56,4 +56,4 @@ cra() {
   else
     npx create-react-app $1
   fi
-} 
+}

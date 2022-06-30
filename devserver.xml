@@ -1,21 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<domain type='kvm' id='3'>
-  <name>Dev Server</name>
-  <uuid>d406c83e-d40e-d307-2480-7930524e672a</uuid>
+<domain type='kvm' id='32'>
+  <name>devserver</name>
+  <uuid>e4724204-b111-8f1e-9796-08b5a1d560bc</uuid>
+  <description>Dev Server</description>
   <metadata>
     <vmtemplate xmlns="unraid" name="Ubuntu" icon="ubuntu.png" os="ubuntu"/>
   </metadata>
-  <memory unit='KiB'>4194304</memory>
-  <currentMemory unit='KiB'>4194304</currentMemory>
+  <memory unit='KiB'>15728640</memory>
+  <currentMemory unit='KiB'>15728640</currentMemory>
   <memoryBacking>
     <nosharepages/>
   </memoryBacking>
-  <vcpu placement='static'>4</vcpu>
+  <vcpu placement='static'>8</vcpu>
   <cputune>
     <vcpupin vcpu='0' cpuset='0'/>
-    <vcpupin vcpu='1' cpuset='1'/>
-    <vcpupin vcpu='2' cpuset='2'/>
-    <vcpupin vcpu='3' cpuset='3'/>
+    <vcpupin vcpu='1' cpuset='4'/>
+    <vcpupin vcpu='2' cpuset='1'/>
+    <vcpupin vcpu='3' cpuset='5'/>
+    <vcpupin vcpu='4' cpuset='2'/>
+    <vcpupin vcpu='5' cpuset='6'/>
+    <vcpupin vcpu='6' cpuset='3'/>
+    <vcpupin vcpu='7' cpuset='7'/>
   </cputune>
   <resource>
     <partition>/machine</partition>
@@ -28,7 +33,7 @@
     <apic/>
   </features>
   <cpu mode='host-passthrough' check='none' migratable='on'>
-    <topology sockets='1' dies='1' cores='2' threads='2'/>
+    <topology sockets='1' dies='1' cores='4' threads='2'/>
     <cache mode='passthrough'/>
   </cpu>
   <clock offset='utc'>
@@ -43,12 +48,12 @@
     <emulator>/usr/local/sbin/qemu</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='raw' cache='writeback'/>
-      <source file='/mnt/user/domains/Dev Server/vdisk1.img' index='2'/>
+      <source file='/mnt/user/domains/devserver/vdisk1.img' index='2'/>
       <backingStore/>
       <target dev='hdc' bus='virtio'/>
       <boot order='1'/>
       <alias name='virtio-disk2'/>
-      <address type='pci' domain='0x0000' bus='0x05' slot='0x00' function='0x0'/>
+      <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </disk>
     <disk type='file' device='cdrom'>
       <driver name='qemu' type='raw'/>
@@ -88,7 +93,7 @@
     </controller>
     <controller type='virtio-serial' index='0'>
       <alias name='virtio-serial0'/>
-      <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+      <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
     </controller>
     <controller type='pci' index='1' model='pcie-root-port'>
       <model name='pcie-root-port'/>
@@ -120,52 +125,28 @@
       <alias name='pci.5'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x4'/>
     </controller>
-    <controller type='pci' index='6' model='pcie-root-port'>
-      <model name='pcie-root-port'/>
-      <target chassis='6' port='0x15'/>
-      <alias name='pci.6'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x5'/>
-    </controller>
-    <controller type='pci' index='7' model='pcie-root-port'>
-      <model name='pcie-root-port'/>
-      <target chassis='7' port='0x16'/>
-      <alias name='pci.7'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x6'/>
-    </controller>
-    <filesystem type='mount' accessmode='passthrough'>
-      <source dir='/mnt/user/projects'/>
-      <target dir='projects'/>
-      <alias name='fs0'/>
-      <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
-    </filesystem>
-    <filesystem type='mount' accessmode='passthrough'>
-      <source dir='/mnt/user/dev virtualbox/'/>
-      <target dir='virtualbox'/>
-      <alias name='fs1'/>
-      <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
-    </filesystem>
     <interface type='bridge'>
-      <mac address='52:54:00:2b:9e:e8'/>
+      <mac address='52:54:00:c8:ac:31'/>
       <source bridge='br0'/>
       <target dev='vnet0'/>
       <model type='virtio-net'/>
       <alias name='net0'/>
-      <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
+      <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
     </interface>
     <serial type='pty'>
-      <source path='/dev/pts/1'/>
+      <source path='/dev/pts/0'/>
       <target type='isa-serial' port='0'>
         <model name='isa-serial'/>
       </target>
       <alias name='serial0'/>
     </serial>
-    <console type='pty' tty='/dev/pts/1'>
-      <source path='/dev/pts/1'/>
+    <console type='pty' tty='/dev/pts/0'>
+      <source path='/dev/pts/0'/>
       <target type='serial' port='0'/>
       <alias name='serial0'/>
     </console>
     <channel type='unix'>
-      <source mode='bind' path='/var/lib/libvirt/qemu/channel/target/domain-3-Dev Server/org.qemu.guest_agent.0'/>
+      <source mode='bind' path='/var/lib/libvirt/qemu/channel/target/domain-32-devserver/org.qemu.guest_agent.0'/>
       <target type='virtio' name='org.qemu.guest_agent.0' state='disconnected'/>
       <alias name='channel0'/>
       <address type='virtio-serial' controller='0' bus='0' port='1'/>
@@ -190,7 +171,7 @@
     </video>
     <memballoon model='virtio'>
       <alias name='balloon0'/>
-      <address type='pci' domain='0x0000' bus='0x06' slot='0x00' function='0x0'/>
+      <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
     </memballoon>
   </devices>
   <seclabel type='dynamic' model='dac' relabel='yes'>
