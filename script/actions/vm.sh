@@ -38,7 +38,7 @@ print_vm_help() {
   message -w "  $SCRIPTNAME vm [flags] [<args>]"
   sep
   sep -t "Options:"
-  message -m "  [-n|--new <vmdomain> <username> | -d|--delete <vmdomain> | [-i|--infos <vmdomain>] [-h|--help]]"
+  message -m "  [-n|--new <vmdomain> <username> | -d|--delete <vmdomain> | [-i|--infos <vmdomain>] [--disk <action>] [-h|--help]]"
   sep
   message -i "  Without any flags, it will show the $VM_DOMAIN vm infos or create it if it doesn't exist"
   sep
@@ -59,6 +59,9 @@ print_vm_help() {
   sep
   sep -t "VM Infos"
   message -m "  -i|--infos <vmname>                       Gets and Prints the vm infos"
+  sep
+  sep -t "VM Disk"
+  message -m "  --disk [resize|show]              Prints (or resize) the vm disk infos"
   sep
   sep -t "Help"
   message -m "  -h|--help                                             Prints this help"
