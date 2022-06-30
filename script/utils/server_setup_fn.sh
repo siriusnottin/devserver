@@ -120,12 +120,12 @@ update_software_dist() {
 	#############################################################################
 
 	message -i "Updating the software"
-		sudo apt update
-		sudo apt upgrade -y
-		sudo apt dist-upgrade -y
-		sudo apt autoremove -y
-		sudo apt autoclean -y
-		sudo apt clean -y
+	sudo apt update
+	sudo apt upgrade -y
+	sudo apt dist-upgrade -y
+	sudo apt autoremove -y
+	sudo apt autoclean -y
+	sudo apt clean -y
 
 	if [ $? -eq 0 ]; then
 		message -s "Software updated"
@@ -387,7 +387,7 @@ trellis() {
 	sep
 	# Vagrant (https://www.vagrantup.com/downloads)
 	message -i "Vagrant"
-	apt_check vagrant
+	apt_check vagrant ruby-dev
 	message -s "Vagrant installed ($(vagrant -v))"
 	message -i "Don't forget to run \"$SCRIPTNAME vagrant\" in your vagrant projects or anywhere else to successfully run vagrant"
 }
