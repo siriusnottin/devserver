@@ -21,7 +21,7 @@ apt_check() {
 			message -w "$package is already installed. Skipping..."
 		else
 			message -w "$package is not installed. Installing..."
-			sudo apt install $package -y
+			sudo apt install $package -y -qq
 			message -s "$package installed"
 		fi
 	done
