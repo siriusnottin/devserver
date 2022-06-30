@@ -30,7 +30,7 @@ shares() {
 		# ----------- Share folder
 		if [ ! -d "/mnt/$share" ]; then
 			message -i "Creating mount point for $share"
-			mkdir "/mnt/$share" || error ${FUNCNAME[0]} ${LINENO} "Could not create mount point for $share" 1
+			sudo mkdir "/mnt/$share" || error ${FUNCNAME[0]} ${LINENO} "Could not create mount point for $share" 1
 			edited=true
 			message -s "Created mount point for $share"
 		fi
