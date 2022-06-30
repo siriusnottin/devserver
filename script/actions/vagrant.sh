@@ -2,17 +2,34 @@
 
 shift
 
+update=false
+
 update_project() {
-  message -i "Updating the project to accept the latest version of Vagrant..."
-  # https://discourse.roots.io/t/vagrant-2-2-19-support/22720/2
-  sed -i "s|< 2.2.19|<= 2.2.19|g" Vagrantfile || error ${FUNCNAME[0]} ${LINENO} "Failed to update Vagrantfile" 1
-  message -s "Project updated"
+  # if <= 2.2.19
+  if [ "$(grep -c "< 2.2.19" Vagrantfile)" -eq 1 ]; then
+    # https://discourse.roots.io/t/vagrant-2-2-19-support/22720/3
+    message -i "Updating the project to accept the latest version of Vagrant..."
+    sed -i "s|< 2.2.19|<= 2.2.19|g" Vagrantfile || error ${FUNCNAME[0]} ${LINENO} "Failed to update Vagrantfile" 1
+    message -s "Project updated"
+    update=true
+  fi
 }
 
 update_plugins() {
-  # Update vagrant-libvirt plugin
-  # https://www.vagrantup.com/docs/cli/plugin#local-1
-  vagrant plugin install --local vagrant-libvirt || error ${FUNCNAME[0]} ${LINENO} "Failed to update vagrant-libvirt" 1
+  if [ "$(uname -s)" == "Linux" ]; then
+    if [ "$(uname -v | grep -c "Ubuntu")" -eq 1 ]; then
+      # https://www.vagrantup.com/docs/cli/plugin#local-1
+      vagrant plugin install --local vagrant-libvirt || error ${FUNCNAME[0]} ${LINENO} "Failed to update vagrant-libvirt" 1
+      update=true
+    fi
+  fi
+}
+
+show_vagrant_box_private_key_path() {
+  # /Users/sirius/Sites/wordpress.test/trellis/.vagrant/machines/default/virtualbox/private_key
+  message -i "The private key path is: "
+  message -c "$(vagrant ssh-config | grep IdentityFile | awk '{print $2}')"
+  sep
 }
 
 do_vagrant_setup() {
@@ -20,27 +37,17 @@ do_vagrant_setup() {
   local path="$2"
 
   # do the setup
-  sep
-  message -m "Setting up the project $project"
-  cd "$path" || error ${FUNCNAME[0]} ${LINENO} "Failed to change to $path" 1
+  cd "$path" >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Failed to change to $path" 1
   update_project
   update_plugins
-  cd - || error ${FUNCNAME[0]} ${LINENO} "Failed to change to $PWD" 1
-  message -s "✅ Project $project setup"
+  cd - >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Failed to change to $PWD" 1
+  if $update; then
+    message -s "✅ Project $project setup"
+  fi
+
+  show_vagrant_box_private_key_path
+
 }
-
-# retrieve all the vagrant projects
-projects=$(find ~/projects -maxdepth 2 -type d -name "trellis*" -print)
-for project in $projects; do
-  # get the project name 1 level up
-  projects_name+=($(basename $(dirname $project)))
-done
-
-# checks if a project is passed as an argument and if it is valid
-if [ ! -z "$1" ] && [[ "${projects_name[*]}" =~ "$1" ]]; then
-  do_vagrant_setup "$1" "${HOME}/projects/$1/trellis"
-  exit 0
-fi
 
 # check from where we are called. if we are called from the vagrant project, we do the setup
 if [ -d trellis ] && [ -d site ]; then
@@ -48,21 +55,28 @@ if [ -d trellis ] && [ -d site ]; then
   project_path="$(pwd)/trellis"
   project_name="$(basename $(dirname $project_path))"
   do_vagrant_setup "$project_name" "$project_path"
-  cd -
-elif [ -f Vagrantfile ] || [ -d trellis ]; then
+elif [ -f Vagrantfile ] && [ -d trellis ]; then
   # we're already in a vagrant project
   project_path=$(pwd)
   project_name=$(basename $(dirname $project_path))
   do_vagrant_setup "$project_name" "$project_path"
-
 else
 
   # if we;re not in a vagrant project, we retrieve all the vagrant projects and ask the user to select one to setup
 
-  if [ ! -d ~/projects ]; then
-    message -e "The ~/projects directory does not exist. Could not search for vagrant projects."
-    exit 1
+  read -r -p "Projects folder: [$HOME/projects] " projects_folder
+  projects_folder=${projects_folder:-$HOME/projects}
+  projects_folder=$(echo $projects_folder | tr '[:upper:]' '[:lower:]')
+  if [ ! -d "$projects_folder" ]; then
+    error ${FUNCNAME[0]} ${LINENO} "Projects folder $projects_folder does not exist" 1
   fi
+
+  # retrieve all the vagrant projects
+  projects=$(find $projects_folder -maxdepth 2 -type d -name "trellis*" -print)
+  for project in $projects; do
+    # get the project name 1 level up
+    projects_name+=($(basename $(dirname $project)))
+  done
 
   if [ -z "${projects}" ]; then
     message -e "No vagrant projects found in $HOME/projects"
@@ -77,7 +91,7 @@ else
     elif [ -z "$project" ]; then
       error ${FUNCNAME[0]} ${LINENO} "No project selected" 1
     else
-      do_vagrant_setup "$project" "${HOME}/projects/$project/trellis"
+      do_vagrant_setup "$project" "$project_path/$project/trellis"
       break
     fi
   done
