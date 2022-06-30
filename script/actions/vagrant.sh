@@ -54,7 +54,7 @@ if [ -d trellis ] && [ -d site ]; then
   project_path="$(pwd)/trellis"
   project_name="$(basename $(dirname $project_path))"
   do_vagrant_setup "$project_name" "$project_path"
-elif [ -f Vagrantfile ] && [ -d trellis ]; then
+elif [ -d trellis ]; then
   # we're already in a vagrant project
   project_path=$(pwd)
   project_name=$(basename $(dirname $project_path))
