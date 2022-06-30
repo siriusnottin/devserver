@@ -40,12 +40,11 @@ do_vagrant_setup() {
   cd "$path" >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Failed to change to $path" 1
   update_project
   update_plugins
+  show_vagrant_box_private_key_path
   cd - >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Failed to change to $PWD" 1
   if $update; then
     message -s "✅ Project $project setup"
   fi
-
-  show_vagrant_box_private_key_path
 
 }
 
@@ -91,7 +90,7 @@ else
     elif [ -z "$project" ]; then
       error ${FUNCNAME[0]} ${LINENO} "No project selected" 1
     else
-      do_vagrant_setup "$project" "$project_path/$project/trellis"
+      do_vagrant_setup "$project" "$projects_folder/$project/trellis"
       break
     fi
   done
