@@ -67,6 +67,8 @@ STEPS_AVAILABLE=(
   "github"
   # "git"
   "trellis"
+  "php"
+  "composer"
   # "nvm"
   # "node"
   "additional_software"

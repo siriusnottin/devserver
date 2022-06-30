@@ -389,6 +389,48 @@ trellis() {
 	message -i "Don't forget to run \"$SCRIPTNAME vagrant\" in your vagrant projects or anywhere else to successfully run vagrant"
 }
 
+php() {
+
+	#############################################################################
+	step "PHP"
+	#############################################################################
+
+	message -i "Installing PHP..."
+	apt_check software-properties-common ca-certificates apt-transport-https
+	sudo add-apt-repository ppa:ondrej/php -y >/dev/null
+	sudo apt update >/dev/null
+	sudo apt upgrade -y >/dev/null
+	apt_check php8.0 php8.0-cli php8.0-simplexml
+
+}
+
+composer() {
+
+	#############################################################################
+	step "Composer"
+	#############################################################################
+
+	# https://getcomposer.org/doc/faqs/how-to-install-composer-programmatically.md
+	composer_install_script() {
+		local EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+		php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+		local ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+		if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
+			rm composer-setup.php
+			error ${FUNCNAME[0]} $LINENO "Invalid installer checksum" 1
+		fi
+
+		php composer-setup.php --quiet
+		RESULT=$?
+		rm composer-setup.php
+		exit $RESULT
+	}
+	message -i "Installing Composer..."
+	composer_install_script || error $LINENO "Failed to install Composer" 1
+	message -s "Composer installed"
+}
+
 nvm() {
 
 	#############################################################################
