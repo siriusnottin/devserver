@@ -43,9 +43,6 @@ while [ $# -gt 0 ]; do
   show | info | infos)
     show_space
     ;;
-  test)
-    is_disk_resized
-    ;;
   *)
     show_space
     sep
