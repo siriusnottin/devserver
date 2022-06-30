@@ -56,10 +56,10 @@ source $SCRIPT_DIR/utils/server_setup_fn.sh
 # here we can diable or add new steps
 # don't forget to add the step to the list of steps in /actions/print_steps.sh
 STEPS_AVAILABLE=(
+  "update_software"
   "shares"
   "projects"
   # "multiple_users"
-  "update_software"
   "default_shell"
   "znap"
   "zsh_config"
@@ -75,7 +75,7 @@ STEPS_AVAILABLE=(
 )
 
 UPDATE_STEPS_AVAILABLE=(
-  "update_software"
+  "update_software_dist"
   "znap"
   "homebrew"
   # "nvm"

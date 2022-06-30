@@ -107,31 +107,34 @@ multiple_users() {
 }
 
 update_software() {
+	message -i "Updating software..."
+	sudo apt update >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
+	sudo apt upgrade -y >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Could not upgrade software" 1
+	message -s "Software updated"
+}
+
+update_software_dist() {
 
 	#############################################################################
 	step "Software update"
 	#############################################################################
 
 	message -i "Updating the software"
-
-	sudo apt-get update
-	if ! $UPDATE; then
-		sudo apt update
-		sudo apt upgrade -y
-	else
 		sudo apt update
 		sudo apt upgrade -y
 		sudo apt dist-upgrade -y
 		sudo apt autoremove -y
 		sudo apt autoclean -y
 		sudo apt clean -y
-	fi
 
 	if [ $? -eq 0 ]; then
 		message -s "Software updated"
+		message -w "Rebooting now..."
+		sudo shutdown -r now
 	else
 		error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
 	fi
+
 }
 
 default_shell() {
