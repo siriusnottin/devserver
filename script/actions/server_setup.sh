@@ -24,16 +24,19 @@ while [ $# -gt 0 ]; do
   --step | --steps)
     shift
     # message -w "Steps: $*"
-    if [ $# -gt 0 ]; then
+    if [ $# -gt 0 ]; then # if there are steps to process
+
       if [ -z "${1// /}" ]; then
         error ${FUNCNAME[0]} ${LINENO} "No step specified" 1
       fi
-      # put all rest of the args in an array
+
       # message -w "Adding steps: $* (#$#)"
       USER_STEPS=("$@")
-    else
+
+    else # no steps specified, with the flag --step so we display all the steps available
       source $SCRIPT_DIR/actions/print_steps.sh
       exit 0
+
     fi
     ;;
   *)
