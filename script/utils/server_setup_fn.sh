@@ -10,7 +10,7 @@ source $SCRIPT_DIR/utils/package.sh
 
 # Shares
 # https://forums.unraid.net/topic/71600-unraid-vm-shares/?do=findComment&comment=658008
-shares() {
+step_shares() {
 
 	#############################################################################
 	step "Shares"
@@ -77,7 +77,7 @@ shares() {
 
 }
 
-projects() {
+step_projects() {
 
 	#############################################################################
 	step "Projects"
@@ -96,7 +96,7 @@ projects() {
 
 # If multiple users
 # for aditionnal security: https://code.visualstudio.com/docs/remote/troubleshooting#_improving-security-on-multi-user-servers
-multiple_users() {
+step_multiple_users() {
 
 	#############################################################################
 	step "Multiple users"
@@ -106,14 +106,14 @@ multiple_users() {
 	systemctl restart sshd
 }
 
-update_software() {
+step_update_software() {
 	message -i "Updating software..."
 	sudo apt update >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
 	sudo apt upgrade -y >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Could not upgrade software" 1
 	message -s "Software updated"
 }
 
-update_software_dist() {
+step_update_software_dist() {
 
 	#############################################################################
 	step "Software update"
@@ -137,7 +137,7 @@ update_software_dist() {
 
 }
 
-default_shell() {
+step_default_shell() {
 
 	#############################################################################
 	step "Default shell"
@@ -161,7 +161,7 @@ default_shell() {
 
 # Znap! (https://github.com/marlonrichert/zsh-snap#installation)
 # See also: https://pablo.tools/blog/computers/znap-zsh-plugin-manager/
-znap() {
+step_znap() {
 
 	#############################################################################
 	step "Znap!"
@@ -193,7 +193,7 @@ znap() {
 	fi
 }
 
-zsh_config() {
+step_zsh_config() {
 
 	#############################################################################
 	step "ZSH"
@@ -240,7 +240,7 @@ zsh_config() {
 }
 
 # Homebrew (https://brew.sh)
-homebrew() {
+step_homebrew() {
 
 	#############################################################################
 	step "Homebrew"
@@ -275,7 +275,7 @@ homebrew() {
 	fi
 }
 
-github() {
+step_github() {
 
 	#############################################################################
 	step "GitHub"
@@ -302,7 +302,7 @@ github() {
 
 }
 
-git() {
+step_git() {
 
 	#############################################################################
 	step "Git"
@@ -350,7 +350,7 @@ git() {
 	fi
 }
 
-trellis() {
+step_trellis() {
 
 	#############################################################################
 	step "Trellis"
@@ -392,7 +392,7 @@ trellis() {
 	message -i "Don't forget to run \"$SCRIPTNAME vagrant\" in your vagrant projects or anywhere else to successfully run vagrant"
 }
 
-php() {
+step_php() {
 
 	#############################################################################
 	step "PHP"
@@ -407,7 +407,7 @@ php() {
 
 }
 
-composer() {
+step_composer() {
 
 	#############################################################################
 	step "Composer"
@@ -434,7 +434,7 @@ composer() {
 	message -s "Composer installed"
 }
 
-nvm() {
+step_nvm() {
 
 	#############################################################################
 	step "NVM"
@@ -458,7 +458,7 @@ nvm() {
 	fi
 }
 
-node() {
+step_node() {
 
 	#############################################################################
 	step "Node"
@@ -475,7 +475,7 @@ node() {
 	fi
 }
 
-additional_software() {
+step_additional_software() {
 
 	#############################################################################
 	step "Additional software"

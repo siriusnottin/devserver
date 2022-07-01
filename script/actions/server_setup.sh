@@ -110,7 +110,7 @@ if [ ! -z "${USER_STEPS}" ]; then
   # once we have the valid steps, we execute them
   for step_fn in "${USER_STEPS_OK[@]}"; do
     # message -i "Executing step $step_fn"
-    $step_fn
+    step_$step_fn
   done
 
 else
@@ -119,11 +119,11 @@ else
   message -w "No steps specified, running all steps..."
   if $UPDATE; then
     for step_fn in "${UPDATE_STEPS_AVAILABLE[@]}"; do
-      $step_fn
+      step_$step_fn
     done
   else
     for step_fn in "${STEPS_AVAILABLE[@]}"; do
-      $step_fn
+      step_$step_fn
     done
   fi
 
