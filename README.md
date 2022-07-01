@@ -1,25 +1,8 @@
 # My dev server setup
 
-My setup for my development environment in a virtual machine. **It's still a work in progress**. The vm is running on my home lab with Unraid.
+My setup for my development environment in a virtual machine on Unraid. **It's still a work in progress**. The vm is running on my home lab.
 
 I use this repo to share my setup and what I learned along the way. Also in case I need to restart from scratch :)
-
-## TOC
-
-- [My dev server setup](#my-dev-server-setup)
-  - [TOC](#toc)
-  - [Usefull commands](#usefull-commands)
-    - [Manage VMs](#manage-vms)
-    - [Allocate more space](#allocate-more-space)
-  - [VM Specs](#vm-specs)
-  - [VM Setup](#vm-setup)
-  - [Local Setup](#local-setup)
-    - [VS Code](#vs-code)
-    - [iTerm2 + tmux = ❤️](#iterm2--tmux--️)
-  - [Todo](#todo)
-  - [Reflexion on the setup](#reflexion-on-the-setup)
-    - [The VM and Unraid setup](#the-vm-and-unraid-setup)
-    - [Files syncronization](#files-syncronization)
 
 ## Usefull commands
 
