@@ -55,7 +55,7 @@ while [ $# -gt 0 ]; do
 		break
 		;;
 	h | help | -h | --help)
-		source $SCRIPT_DIR/help.sh
+		source $SCRIPT_DIR/print_help.sh
 		break
 		;;
 	*)
