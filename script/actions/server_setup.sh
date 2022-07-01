@@ -52,7 +52,7 @@ done
 # we load the steps to be executed
 source $SCRIPT_DIR/utils/server_setup_fn.sh
 
-# here we can diable or add new steps
+# here we can disable or add new steps
 # don't forget to add the step to the list of steps in /actions/print_steps.sh
 STEPS_AVAILABLE=(
   "update_software"
