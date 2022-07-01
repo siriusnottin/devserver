@@ -188,6 +188,8 @@ step_znap() {
 		message -i "Installing Znap..."
 		git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ${ZNAP_PATH}/zsh-snap
 		message -s "Znap installed"
+		message -i "Reloading zsh..."
+		exec zsh -l -c "source $HOME/.zshrc && znap restart || error ${FUNCNAME[0]} ${LINENO} "Could not reload zsh" 1
 	else
 		message -w "Znap is already installed. Skipping..."
 	fi
