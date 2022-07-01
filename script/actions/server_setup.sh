@@ -36,10 +36,6 @@ while [ $# -gt 0 ]; do
       exit 0
     fi
     ;;
-  -h | --help)
-    source $SCRIPT_DIR/help.sh
-    exit 0
-    ;;
   *)
     message -e "Unknown command: $1"
     sep
