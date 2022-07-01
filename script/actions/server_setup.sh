@@ -85,7 +85,6 @@ if [ ! -z "${USER_STEPS}" ]; then
 
   USER_STEPS_OK=()
 
-  # checks if the steps are valid
   check_step() {
     local step="$1" steps_available=("$2") action="$3"
     # message -c "Checking step: $step"
@@ -99,6 +98,7 @@ if [ ! -z "${USER_STEPS}" ]; then
     fi
   }
 
+  # checks if the steps are valid
   for step_fn in "${USER_STEPS[@]}"; do
     if $UPDATE; then
       check_step "$step_fn" "${UPDATE_STEPS_AVAILABLE[*]}" "update"
