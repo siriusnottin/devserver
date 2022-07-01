@@ -403,9 +403,12 @@ step_php() {
 
 	message -i "Installing PHP..."
 	apt_check software-properties-common ca-certificates apt-transport-https
-	sudo add-apt-repository ppa:ondrej/php -y >/dev/null
-	sudo apt update >/dev/null
-	sudo apt upgrade -y >/dev/null
+	message -i "Adding PHP repository..."
+	sudo add-apt-repository ppa:ondrej/php -y >/dev/null || error $LINENO "Failed to add PHP repository" 1
+	message -i "Updating package list..."
+	sudo apt update >/dev/null || error $LINENO "Failed to update package list" 1
+	message -i "Upgrading packages..."
+	sudo apt upgrade -y >/dev/null || error $LINENO "Failed to upgrade packages" 1
 	apt_check php8.0 php8.0-cli php8.0-simplexml
 
 }
