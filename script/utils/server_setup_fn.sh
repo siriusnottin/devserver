@@ -375,7 +375,7 @@ step_trellis() {
 	# https://gist.github.com/frfahim/73c0fad6350332cef7a653bcd762f08d
 	sep
 	message -i "Virtualenv"
-	apt_check python3-pip python3-venv
+	apt_check python3-venv
 	message -s "virtualenv installed"
 
 	sep
