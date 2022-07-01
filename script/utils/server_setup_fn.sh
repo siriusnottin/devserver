@@ -314,7 +314,8 @@ step_git() {
 	read -e -p "Git branch name [main]: " GIT_BRANCH
 	GIT_BRANCH=${GIT_BRANCH:-"main"}
 	message -i "Setting default branch name..."
-	git config --global init.defaultBranch "$GIT_BRANCH" && message -s "Default branch name set" || error $LINENO "Failed to set default branch name" 1
+	git config --global init.defaultBranch "$GIT_BRANCH" || error $LINENO "Failed to set default branch name" 1
+	message -s "Default branch name set"
 
 	# User name
 	get_user_full_name() {
