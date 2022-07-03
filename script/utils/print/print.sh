@@ -54,9 +54,9 @@ error() {
 	local message="$3"
 	local code="${4:-1}"
 	if [[ -n "$message" ]]; then
-		message -e "${parent_function} Error on or near line ${parent_lineno}: ${message}; exiting with status ${code}"
+		message -e "${parent_function} Error on or near line ${parent_lineno}: ${message}; exiting with status ${code}" >&2
 	else
-		message -e "${parent_function} Error on or near line ${parent_lineno}; exiting with status ${code}"
+		message -e "${parent_function} Error on or near line ${parent_lineno}; exiting with status ${code}" >&2
 	fi
 	exit "${code}"
 }
