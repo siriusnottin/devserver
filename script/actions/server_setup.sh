@@ -13,7 +13,6 @@ ACTION=$(echo $action | tr '[:lower:]' '[:upper:]')
 
   shift
 
-USER_STEPS=()
 while [ $# -gt 0 ]; do
   case $1 in
   --step | --steps)
