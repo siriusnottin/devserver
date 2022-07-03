@@ -84,7 +84,7 @@ step_projects() {
 	#############################################################################
 
 	message -i "Checking if projects folder exists..."
-	if [ -d "/mnt/projects" ]; then
+	if [ -d "$HOME/projects" ]; then
 		message -w "Projects folder already exists. Skipping..."
 	else
 		message -i "Creating projects folder"
