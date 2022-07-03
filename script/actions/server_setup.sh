@@ -19,12 +19,6 @@ while [ $# -gt 0 ]; do
     shift
     # message -w "Steps: $*"
     if [ $# -gt 0 ]; then # if there are steps to process
-
-      if [ -z "${1// /}" ]; then
-        error ${FUNCNAME[0]} ${LINENO} "No step specified" 1
-      fi
-
-      # message -w "Adding steps: $* (#$#)"
       USER_STEPS=("$@")
 
     else # no steps specified, with the flag --step so we display all the steps available
