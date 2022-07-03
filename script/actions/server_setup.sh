@@ -56,7 +56,7 @@ SETUP_STEPS_AVAILABLE=(
   "trellis"
   "php"
   "composer"
-  # "nvm"
+  "nvm"
   # "node"
   "additional_software"
 )
@@ -65,7 +65,7 @@ UPDATE_STEPS_AVAILABLE=(
   "update_software_dist"
   "znap"
   "homebrew"
-  # "nvm"
+  "nvm"
   # "node"
 )
 

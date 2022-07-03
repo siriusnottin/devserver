@@ -465,9 +465,12 @@ step_nvm() {
 	fi
 
 	message -i "Checking if NVM is installed"
-	if [ ! -d "$HOME/.nvm" ]; then
-		message -w "NVM is not installed. Have you properly run the script?"
-		message -w "Please, run the script again and wait for the \"znap restart\" instruction!"
+	if [[ $(command -v nvm) = "nvm" ]]; then
+		message -w "NVM is not installed. It shoudl have been installed automatically by zsh-nvm."
+		step_znap
+		script_log_step_execution_now
+		exec zsh -l "source $HOME/.zshrc"
+		step_nvm
 	else
 		message -w "NVM is already installed."
 	fi
