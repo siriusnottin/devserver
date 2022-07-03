@@ -10,7 +10,7 @@ PARENT_SCRIPT_DIR=$(dirname $SCRIPT_DIR)
 
 NETWORK_CONFIG_IP_RANGE="192.168.0.10-50" # or "192.168.0.1/24" to scan every ip in the subnet
 
-# Loads all the utilities functions
+# Loads the utilities functions
 source $SCRIPT_DIR/utils/print/print.sh
 source $SCRIPT_DIR/utils/print/print_sep.sh
 
