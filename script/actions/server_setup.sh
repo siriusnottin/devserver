@@ -70,7 +70,6 @@ UPDATE_STEPS_AVAILABLE=(
 
 # https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference
 array_name="${ACTION}_STEPS_AVAILABLE"
-  USER_STEPS_OK=()
 ACTION_STEPS_AVAILABLE="${array_name}[*]"
 ACTION_STEPS_AVAILABLE=(${!ACTION_STEPS_AVAILABLE})
 
