@@ -16,13 +16,12 @@ update_project() {
 }
 
 update_plugins() {
-  if [ "$(uname -s)" == "Linux" ]; then
-    if [ "$(uname -v | grep -c "Ubuntu")" -eq 1 ]; then
-      # https://www.vagrantup.com/docs/cli/plugin#local-1
+  # do only this update if it's a mac
+  if [[ $OS = "mac" ]]; then
+    # https://www.vagrantup.com/docs/cli/plugin#local-1
     vagrant plugin install --local vagrant-libvirt || script_error ${FUNCNAME[0]} ${LINENO} "Failed to update vagrant-libvirt" 1
     message -s "Plugins updated"
-      update=true
-    fi
+    update=true
   fi
 }
 
