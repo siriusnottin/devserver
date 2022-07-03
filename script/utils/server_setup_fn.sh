@@ -169,10 +169,10 @@ step_znap() {
 	#############################################################################
 
 	if [[ $action == "update" ]]; then
-	if $UPDATE; then
-		message -w "Please run the following command in the terminal:"
+		message -i "To update Znap! Execute the following command:"
+		sep
 		message -c "znap pull"
-		message -w "Then restart the script to continue"
+		sep
 		read -p "Press enter to continue..." -n1 -s
 		script_log_step_execution_now
 		exit 0
@@ -192,6 +192,7 @@ step_znap() {
 		message -i "Installing Znap..."
 		git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git $ZNAP_PATH || script_error ${FUNCNAME[0]} ${LINENO} "Could not install Znap" 1
 		message -s "Znap installed"
+
 		message -i "Reloading zsh..."
 		script_log_step_execution_now
 		exec zsh -l "source $HOME/.zshrc"
@@ -215,7 +216,7 @@ step_zsh_config() {
 		sep
 		message -i "Znap will be loaded automatically (including ohmyzsh and nvm)"
 		sep
-		message -w "After znap is loaded, you should always run 'znap restart' instead of sourceing the zsh config file directly!"
+		message -w "After that, you should always run 'znap restart' instead of sourceing the zsh config file directly!"
 		sep
 		message -i "Doing so could cause some issues or unexpected side effects"
 		message -i "Read more about it here: https://github.com/marlonrichert/zsh-snap/blob/main/.zshrc"
@@ -479,13 +480,15 @@ step_node() {
 	#############################################################################
 
 	script_log_step_execution_now
+
+	message -i "Checking if the latest stable version of Node (LTS) is installed..."
 	if [ ! -d "$HOME/.nvm/versions/node/$(nvm version node)" ]; then
 		message -i "The latest stable node version is not installed."
 		message -i "Installing node $(nvm version node)"
 		nvm install node
 		message -s "Node $(nvm version node) installed"
 	else
-		message -w "Node is already installed. Skipping..."
+		message -w "Node is already installed and up to date."
 	fi
 }
 
