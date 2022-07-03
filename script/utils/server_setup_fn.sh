@@ -405,6 +405,16 @@ step_trellis() {
 	message -i "Don't forget to run \"$SCRIPTNAME vagrant\" in your vagrant projects or anywhere else to successfully run vagrant"
 }
 
+step_ngrok() {
+
+	#############################################################################
+	step "ngrok"
+	#############################################################################
+
+	curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && apt_check ngrok
+	ngrok config add-authtoken 2BNNA2htjPpK8dWEU0frj64zFJb_4nn7KAMXq56maNUa6cq3y
+}
+
 step_php() {
 
 	script_log_step_execution_now

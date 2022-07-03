@@ -55,6 +55,7 @@ SETUP_STEPS_AVAILABLE=(
   github
   git
   trellis
+  ngrok
   php
   composer
   nvm

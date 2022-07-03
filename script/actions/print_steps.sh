@@ -30,6 +30,8 @@ message -m "git"
 sep
 message -m "trellis"
 sep
+message -m "ngrok"
+sep
 message -m "php"
 sep
 message -m "composer"
