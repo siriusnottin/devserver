@@ -282,7 +282,14 @@ step_homebrew() {
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || script_error ${FUNCNAME[0]} $LINENO "Failed to install homebrew" 1
 		message -s "Homebrew installed"
 
-		eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >/dev/null || error $LINENO "Failed to set up shell environment" 1
+		case $OS in
+		mac)
+			znap eval brew-shellenv 'brew shellenv'
+			;;
+		linux)
+			znap eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >/dev/null
+			;;
+		esac
 
 		message -i "Installing Homebrew packages..."
 		apt_check build-essential
