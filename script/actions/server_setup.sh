@@ -88,15 +88,15 @@ ACTION_STEPS_AVAILABLE=(${!ACTION_STEPS_AVAILABLE})
 
 do_user_steps() {
   # checks if the steps are valid
-  for step_fn in "${USER_STEPS[@]}"; do
-    # message -s "Step $step_fn is valid"
-    check_step "$step_fn"
-    USER_STEPS_OK+=("$step_fn")
+  for step in "${USER_STEPS[@]}"; do
+    # message -s "Step $step is valid"
+    check_step "$step"
+    USER_STEPS_OK+=("$step")
   done
 
   # once we have the valid steps, we execute them
-  for step_fn in "${USER_STEPS_OK[@]}"; do
-    step_$step_fn
+  for step in "${USER_STEPS_OK[@]}"; do
+    eval step_"$step"
   done
 
   return 0
@@ -105,7 +105,7 @@ do_user_steps() {
 do_all_steps() {
   message -w "No steps specified, running all steps..."
   for step_fn in "${ACTION_STEPS_AVAILABLE[@]}"; do
-    eval step_"$1"
+    eval step_"$step_fn"
     done
 }
 
