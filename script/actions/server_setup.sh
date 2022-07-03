@@ -57,7 +57,7 @@ SETUP_STEPS_AVAILABLE=(
   "php"
   "composer"
   "nvm"
-  # "node"
+  "node"
   "additional_software"
 )
 
@@ -66,7 +66,7 @@ UPDATE_STEPS_AVAILABLE=(
   "znap"
   "homebrew"
   "nvm"
-  # "node"
+  "node"
 )
 
 # https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference

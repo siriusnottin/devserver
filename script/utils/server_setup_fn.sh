@@ -478,8 +478,10 @@ step_nvm() {
 
 step_node() {
 
+	source $NVM_DIR/nvm.sh
+
 	#############################################################################
-	step "Node"
+	step "Node [$(nvm version node)]"
 	#############################################################################
 
 	script_log_step_execution_now
