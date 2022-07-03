@@ -36,13 +36,14 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-# we load the steps to be executed
 source $SCRIPT_DIR/utils/script_step_exec_log.sh
+source $SCRIPT_DIR/steps/global_steps.sh
+source $SCRIPT_DIR/steps/ubuntu_steps.sh
 source $SCRIPT_DIR/utils/server_setup_fn.sh
 
 # here we can disable or add new steps
 # don't forget to add the step to the list of steps in /actions/print_steps.sh
-SETUP_STEPS_AVAILABLE=(
+SETUP_STEPS_AVAILABLE_UBUNTU=(
   timezone
   update_software
   shares
@@ -66,8 +67,11 @@ SETUP_STEPS_AVAILABLE=(
 
 UPDATE_STEPS_AVAILABLE=(update_software_dist znap homebrew nvm nod)
 
+UPDATE_STEPS_AVAILABLE_UBUNTU=(update_software_dist znap homebrew nvm node)
+
 # https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference
-array_name="${ACTION}_STEPS_AVAILABLE"
+OS_CAP=$(echo $OS | tr '[:lower:]' '[:upper:]')
+array_name="${ACTION}_STEPS_AVAILABLE_${OS_CAP}"
 ACTION_STEPS_AVAILABLE="${array_name}[*]"
 ACTION_STEPS_AVAILABLE=(${!ACTION_STEPS_AVAILABLE})
 
