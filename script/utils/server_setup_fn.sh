@@ -176,15 +176,17 @@ step_znap() {
 		return 0
 	fi
 
-	read -e -p "Znap path [~/.zsh-plugins]: " ZNAP_PATH
-	ZNAP_PATH=${ZNAP_PATH:-"$HOME/.zsh-plugins"}
+	read -e -p "Znap folder [~/.zsh-plugins]: " ZNAP_PARENT_FOLDER
+	ZNAP_PARENT_FOLDER=${ZNAP_PARENT_FOLDER:-"$HOME/.zsh-plugins"}
 	message -i "Checking if Znap is already installed..."
-	if [ ! -d "$ZNAP_PATH" ]; then
+	if [ ! -d "$ZNAP_PARENT_FOLDER" ]; then
 		message -i "Creating folder for Znap..."
-		mkdir -p "$ZNAP_PATH"
+		mkdir -p "$ZNAP_PARENT_FOLDER"
 		message -s "Folder for Znap created"
 	fi
-	if [ ! -d "$ZNAP_PATH/zsh-snap" ]; then
+
+	ZNAP_PATH="$ZNAP_PARENT_FOLDER/zsh-snap"
+	if [ ! -d "$ZNAP_PATH" ]; then
 		message -i "Installing Znap..."
 		git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ${ZNAP_PATH}/zsh-snap
 		message -s "Znap installed"
