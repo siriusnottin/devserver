@@ -4,19 +4,14 @@
 #                                Server Setup                                 #
 # =============================================================================
 
-if [ "$1" = "setup" ] || [ "$1" = "install" ]; then
-  UPDATE=false
-  message -i "Server setup started..."
+action="$1"
+
+message -i "Server $action started..."
   sep
+
+ACTION=$(echo $action | tr '[:lower:]' '[:upper:]')
+
   shift
-elif [ "$1" = "update" ]; then
-  UPDATE=true
-  message -i "Server update started..."
-  sep
-  shift
-else
-  error ${FUNCNAME[0]} ${LINENO} "No arguments supplied! Use the help command to see the usage" 1
-fi
 
 USER_STEPS=()
 while [ $# -gt 0 ]; do
@@ -54,7 +49,7 @@ source $SCRIPT_DIR/utils/server_setup_fn.sh
 
 # here we can disable or add new steps
 # don't forget to add the step to the list of steps in /actions/print_steps.sh
-STEPS_AVAILABLE=(
+SETUP_STEPS_AVAILABLE=(
   "update_software"
   "shares"
   "projects"
@@ -81,16 +76,18 @@ UPDATE_STEPS_AVAILABLE=(
   # "node"
 )
 
-if [ ! -z "${USER_STEPS}" ]; then
-
+# https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference
+array_name="${ACTION}_STEPS_AVAILABLE"
   USER_STEPS_OK=()
+ACTION_STEPS_AVAILABLE="${array_name}[*]"
+ACTION_STEPS_AVAILABLE=(${!ACTION_STEPS_AVAILABLE})
 
   check_step() {
-    local step="$1" steps_available=("$2") action="$3"
+  local step="$1"
     # message -c "Checking step: $step"
     if [ -z "${1// /}" ]; then
-      error ${FUNCNAME[0]} ${LINENO} "Step cannot be empty" 1
-    elif [[ "${steps_available[*]}" =~ "$step" ]]; then
+    script_error ${FUNCNAME[0]} ${LINENO} "Step cannot be empty" 1
+  elif [[ "${ACTION_STEPS_AVAILABLE[*]}" =~ "$step" ]]; then
       # message -s "Step $step is valid"
       USER_STEPS_OK+=("$step")
     else
@@ -98,33 +95,27 @@ if [ ! -z "${USER_STEPS}" ]; then
     fi
   }
 
+do_user_steps() {
   # checks if the steps are valid
   for step_fn in "${USER_STEPS[@]}"; do
-    if $UPDATE; then
-      check_step "$step_fn" "${UPDATE_STEPS_AVAILABLE[*]}" "update"
-    else
-      check_step "$step_fn" "${STEPS_AVAILABLE[*]}" "setup"
-    fi
+    # message -s "Step $step_fn is valid"
+    check_step "$step_fn"
+    USER_STEPS_OK+=("$step_fn")
   done
 
   # once we have the valid steps, we execute them
   for step_fn in "${USER_STEPS_OK[@]}"; do
-    # message -i "Executing step $step_fn"
     step_$step_fn
   done
 
-else
+  return 0
+}
 
-  # no steps specified, runs all the steps available
+do_all_steps() {
   message -w "No steps specified, running all steps..."
-  if $UPDATE; then
-    for step_fn in "${UPDATE_STEPS_AVAILABLE[@]}"; do
-      step_$step_fn
+  for step_fn in "${ACTION_STEPS_AVAILABLE[@]}"; do
+    eval step_"$1"
     done
-  else
-    for step_fn in "${STEPS_AVAILABLE[@]}"; do
-      step_$step_fn
-    done
-  fi
+}
 
-fi
+[[ -n $USER_STEPS ]] && do_user_steps || do_all_steps
