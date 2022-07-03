@@ -43,31 +43,25 @@ source $SCRIPT_DIR/utils/server_setup_fn.sh
 # here we can disable or add new steps
 # don't forget to add the step to the list of steps in /actions/print_steps.sh
 SETUP_STEPS_AVAILABLE=(
-  "update_software"
-  "shares"
-  "projects"
-  # "multiple_users"
-  "default_shell"
-  "znap"
-  "zsh_config"
-  "homebrew"
-  "github"
-  "git"
-  "trellis"
-  "php"
-  "composer"
-  "nvm"
-  "node"
-  "additional_software"
+  update_software
+  shares
+  projects
+  # multiple_users
+  default_shell
+  znap
+  zsh_config
+  homebrew
+  github
+  git
+  trellis
+  php
+  composer
+  nvm
+  node
+  additional_software
 )
 
-UPDATE_STEPS_AVAILABLE=(
-  "update_software_dist"
-  "znap"
-  "homebrew"
-  "nvm"
-  "node"
-)
+UPDATE_STEPS_AVAILABLE=(update_software_dist znap homebrew nvm nod)
 
 # https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference
 array_name="${ACTION}_STEPS_AVAILABLE"
