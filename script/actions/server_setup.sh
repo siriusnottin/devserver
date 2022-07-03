@@ -60,6 +60,7 @@ SETUP_STEPS_AVAILABLE=(
   composer
   nvm
   node
+  yarn
   additional_software
 )
 

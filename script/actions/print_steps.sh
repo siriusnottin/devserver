@@ -40,4 +40,6 @@ message -m "nvm"
 sep
 message -m "node"
 sep
+message -m "yarn"
+sep
 message -m "additional_software"
