@@ -7,11 +7,11 @@
 action="$1"
 
 message -i "Server $action started..."
-  sep
+sep
 
 ACTION=$(echo $action | tr '[:lower:]' '[:upper:]')
 
-  shift
+shift
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -83,7 +83,7 @@ do_user_steps() {
       source $SCRIPT_DIR/actions/print_help.sh >&2
       exit 1
     elif [[ "${ACTION_STEPS_AVAILABLE[*]}" =~ "$step" ]]; then
-    USER_STEPS_OK+=("$step")
+      USER_STEPS_OK+=("$step")
     else
       error "Step $step is not available to $action" 1
     fi
@@ -101,7 +101,7 @@ do_all_steps() {
   message -w "No steps specified, running all steps..."
   for step_fn in "${ACTION_STEPS_AVAILABLE[@]}"; do
     eval step_"$step_fn"
-    done
+  done
 }
 
 [[ -n $USER_STEPS ]] && do_user_steps || do_all_steps
