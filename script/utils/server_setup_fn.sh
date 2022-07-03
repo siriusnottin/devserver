@@ -149,7 +149,7 @@ step_default_shell() {
 		apt_check zsh
 
 		message -i "Changing default shell to zsh..."
-		chsh -s /usr/bin/zsh
+		chsh -s $(which zsh) || script_error ${FUNCNAME[0]} ${LINENO} "Could not change default shell to zsh" 1
 		message -s "Default shell changed"
 		message -w "Please login again to apply changes (then restart the script to continue)"
 		message -i "Exiting..."
