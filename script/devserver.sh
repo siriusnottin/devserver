@@ -4,8 +4,6 @@
 #                                Main Script                                  #
 # =============================================================================
 
-DEBUG=false # update this to true to see debug messages
-
 SCRIPTNAME="$(basename $0)"
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 DEVSERVER_DIR=$(dirname $SCRIPT_DIR)

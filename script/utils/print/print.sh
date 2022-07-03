@@ -46,13 +46,6 @@ message() {
 	fi
 }
 
-# Prints a debug message if DEBUG is set to true
-debug() {
-	if [ "$DEBUG" = true ]; then
-		message -i "Debug: $1"
-	fi
-}
-
 # Prints an error message and exits the script with an error code.
 error() {
 	# https://stackoverflow.com/a/185900/6751578

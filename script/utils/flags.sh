@@ -8,9 +8,6 @@ transform_long_flags() {
 			flag=${longflag:2}
 			shortflag=-${flag:0:1}
 			set -- "$@" "$shortflag"
-			debug "Transformed $longflag to $shortflag"
-		else
-			debug "$longflag is not a long flag"
 		fi
 		return 0
 	done
