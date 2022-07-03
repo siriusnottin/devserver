@@ -20,7 +20,7 @@ while [ $# -gt 0 ]; do
     # message -w "Steps: $*"
     if [ $# -gt 0 ]; then # if there are steps to process
       USER_STEPS=("$@")
-
+      break
     else # no steps specified, with the flag --step so we display all the steps available
       source $SCRIPT_DIR/actions/print_steps.sh
       exit 0
