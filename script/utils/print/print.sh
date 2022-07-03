@@ -46,8 +46,12 @@ message() {
 	fi
 }
 
-# Prints an error message and exits the script with an error code.
 error() {
+	message -e "Error: $1" >&2
+	[[ -n ${2// /} ]] && exit $2
+}
+
+script_error() {
 	# https://stackoverflow.com/a/185900/6751578
 	local parent_function="$1"
 	local parent_lineno="$2"
@@ -58,5 +62,5 @@ error() {
 	else
 		message -e "${parent_function} Error on or near line ${parent_lineno}; exiting with status ${code}" >&2
 	fi
-	exit "${code}"
+	[[ -n $code ]] && exit "$code"
 }

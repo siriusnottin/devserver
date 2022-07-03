@@ -83,7 +83,10 @@ for arg in "$@"; do
     # todo implement the new vm command
     # shift
     # if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
-    #   error ${FUNCNAME[0]} ${LINENO} "Missing arguments for the new vm command" 1
+    #   error "Missing arguments"
+    #   sep
+    #   print_vm_help
+    #   exit 1
     # fi
     # create_vm "$1" "$2" "$3"
     break
@@ -91,7 +94,8 @@ for arg in "$@"; do
   -d | --delete)
     shift
     if [ -z "$1" ]; then
-      message -e "Error: Missing VM name"
+      error "Error: Missing VM name"
+      sep
       print_vm_help
       exit 1
     fi
@@ -108,7 +112,8 @@ for arg in "$@"; do
     break
     ;;
   *)
-    message -e "Error: Unknown argument $arg"
+    error "Unknown argument $arg"
+    sep
     print_vm_help
     exit 1
     ;;

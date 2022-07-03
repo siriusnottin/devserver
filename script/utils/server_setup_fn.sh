@@ -17,8 +17,8 @@ step_shares() {
 	#############################################################################
 
 	local credentials_file="/root/.cifs"
-	printf "%s\n" "username=$VM_DOMAIN" "password=MWV.pcp*zxd@ujc2rge" | sudo tee $credentials_file >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Could not write to $credentials_file" 1
-	sudo chmod 600 $credentials_file || error ${FUNCNAME[0]} ${LINENO} "Could not change permissions on $credentials_file" 1
+	printf "%s\n" "username=$VM_DOMAIN" "password=MWV.pcp*zxd@ujc2rge" | sudo tee $credentials_file >/dev/null || script_error ${FUNCNAME[0]} ${LINENO} "Could not write to $credentials_file" 1
+	sudo chmod 600 $credentials_file || script_error ${FUNCNAME[0]} ${LINENO} "Could not change permissions on $credentials_file" 1
 
 	apt_check cifs-utils
 
@@ -30,7 +30,7 @@ step_shares() {
 		# ----------- Share folder
 		if [ ! -d "/mnt/$share" ]; then
 			message -i "Creating mount point for $share"
-			sudo mkdir "/mnt/$share" || error ${FUNCNAME[0]} ${LINENO} "Could not create mount point for $share" 1
+			sudo mkdir "/mnt/$share" || script_error ${FUNCNAME[0]} ${LINENO} "Could not create mount point for $share" 1
 			edited=true
 			message -s "Created mount point for $share"
 		fi
@@ -40,7 +40,7 @@ step_shares() {
 
 		add_share() {
 			message -i "Adding $share to fstab"
-			printf "%s\n" "$share_fstab" | sudo tee -a /etc/fstab >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Could not add $share to fstab" 1
+			printf "%s\n" "$share_fstab" | sudo tee -a /etc/fstab >/dev/null || script_error ${FUNCNAME[0]} ${LINENO} "Could not add $share to fstab" 1
 			edited=true
 			message -s "$share added to fstab"
 		}
@@ -49,7 +49,7 @@ step_shares() {
 			if ! grep -sxq "$share_fstab" /etc/fstab; then
 				# remove the line from the fstab
 				message -w "Found exisiting $share share in fstab but it does not match the current configuration. Removing it..."
-				sudo sed -i "/$share/d" /etc/fstab || error ${FUNCNAME[0]} ${LINENO} "Could not remove $share from fstab" 1
+				sudo sed -i "/$share/d" /etc/fstab || script_error ${FUNCNAME[0]} ${LINENO} "Could not remove $share from fstab" 1
 				add_share
 				sudo umount "/mnt/$share" >/dev/null 2>&1
 				edited=true
@@ -65,7 +65,7 @@ step_shares() {
 	for share in "${SHARES[@]}"; do
 		if ! grep -qs "/$share " /proc/mounts; then # if share is not mounted
 			message -i "Mounting the share $share"
-			sudo mount "/mnt/$share" || error ${FUNCNAME[0]} ${LINENO} "Could not mount $share. Have you restarted the unraid server?" 1
+			sudo mount "/mnt/$share" || script_error ${FUNCNAME[0]} ${LINENO} "Could not mount $share." 1
 			edited=true
 			message -s "Mounted $share"
 		fi
@@ -88,7 +88,7 @@ step_projects() {
 		message -w "Projects folder already exists. Skipping..."
 	else
 		message -i "Creating projects folder"
-		mkdir "/$HOME/projects" || error ${FUNCNAME[0]} ${LINENO} "Could not create projects folder" 1
+		mkdir "/$HOME/projects" || script_error ${FUNCNAME[0]} ${LINENO} "Could not create projects folder" 1
 		message -s "Created projects folder"
 	fi
 
@@ -108,8 +108,8 @@ step_multiple_users() {
 
 step_update_software() {
 	message -i "Updating software..."
-	sudo apt update >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
-	sudo apt upgrade -y >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Could not upgrade software" 1
+	sudo apt update || script_error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
+	sudo apt upgrade -y || script_error ${FUNCNAME[0]} ${LINENO} "Could not upgrade software" 1
 	message -s "Software updated"
 }
 
@@ -132,7 +132,7 @@ step_update_software_dist() {
 		message -w "Rebooting now..."
 		sudo shutdown -r now
 	else
-		error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
+		script_error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
 	fi
 
 }
@@ -203,7 +203,7 @@ step_zsh_config() {
 
 	create_zsh_config() {
 		message -i "Creating zsh config file..."
-		cp $PARENT_SCRIPT_DIR/.zshrc $HOME/.zshrc || error $LINENO "Failed to create zsh config file" 1
+		cp $PARENT_SCRIPT_DIR/.zshrc $HOME/.zshrc || script_error ${FUNCNAME[0]} $LINENO "Failed to create zsh config file" 1
 		message -s "zsh config file created"
 		sep
 		message -c "Please run 'source ~/.zshrc' to apply changes"
@@ -250,11 +250,11 @@ step_homebrew() {
 
 	if [ "$UPDATE" = true ]; then
 		message -i "Updating homebrew..."
-		brew update >/dev/null || error $LINENO "Failed to update homebrew" 1
+		brew update >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to update homebrew" 1
 		message -s "Homebrew updated"
 
 		message -i "Updating homebrew formulas and packages..."
-		brew upgrade >/dev/null || error $LINENO "Failed to update homebrew formulas and packages" 1
+		brew upgrade >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to update homebrew formulas and packages" 1
 		message -s "Homebrew formulas and packages updated"
 		return 0
 	fi
@@ -265,7 +265,7 @@ step_homebrew() {
 		message -w "Homebrew is already installed. Skipping..."
 	else
 		message -i "Installing Homebrew..."
-		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || error $LINENO "Failed to install homebrew" 1
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || script_error ${FUNCNAME[0]} $LINENO "Failed to install homebrew" 1
 		message -s "Homebrew installed"
 
 		eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >/dev/null || error $LINENO "Failed to set up shell environment" 1
@@ -292,14 +292,14 @@ step_github() {
 	message -i "Checking if you are already logged in to GitHub..."
 	if gh auth status 2>&1 | grep -qi "You are not logged"; then
 		printf "%s\n" "You are not logged into GitHub. Logging in..."
-		gh auth login || error $LINENO "Failed to login to GitHub" 1
+		gh auth login || script_error ${FUNCNAME[0]} $LINENO "Failed to login to GitHub" 1
 		message -s "Logged in to GitHub"
 	else
 		message -s "You are already logged into GitHub. Skipping..."
 	fi
 
 	message -i "Setting Git using the GitHub CLI"
-	gh auth setup-git >/dev/null || error $LINENO "Failed to set Git using the GitHub CLI" 1
+	gh auth setup-git >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to set Git using the GitHub CLI" 1
 	message -s "Git set using the GitHub CLI"
 
 }
@@ -314,7 +314,7 @@ step_git() {
 	read -e -p "Git branch name [main]: " GIT_BRANCH
 	GIT_BRANCH=${GIT_BRANCH:-"main"}
 	message -i "Setting default branch name..."
-	git config --global init.defaultBranch "$GIT_BRANCH" || error $LINENO "Failed to set default branch name" 1
+	git config --global init.defaultBranch "$GIT_BRANCH" || script_error ${FUNCNAME[0]} $LINENO "Failed to set default branch name" 1
 	message -s "Default branch name set"
 
 	# User name
@@ -332,7 +332,7 @@ step_git() {
 		message -w "Git user name already set. Skipping..."
 	else
 		message -i "Setting up git user name"
-		git config --global user.name "$GIT_USER_NAME" || error $LINENO "Failed to set git user name" 1
+		git config --global user.name "$GIT_USER_NAME" || script_error ${FUNCNAME[0]} $LINENO "Failed to set git user name" 1
 		message -s "Git user name set"
 	fi
 
@@ -345,7 +345,7 @@ step_git() {
 			message -i "Git email already set. Skipping..."
 		else
 			message -i "Setting git email..."
-			git config --global user.email $GIT_EMAIL || error $LINENO "Failed to set git email" 1
+			git config --global user.email $GIT_EMAIL || script_error ${FUNCNAME[0]} $LINENO "Failed to set git email" 1
 			message -s "Git email set. Skipping..."
 		fi
 	else
@@ -404,11 +404,11 @@ step_php() {
 	message -i "Installing PHP..."
 	apt_check software-properties-common ca-certificates apt-transport-https
 	message -i "Adding PHP repository..."
-	sudo add-apt-repository ppa:ondrej/php -y >/dev/null || error $LINENO "Failed to add PHP repository" 1
+	sudo add-apt-repository ppa:ondrej/php -y >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to add PHP repository" 1
 	message -i "Updating package list..."
-	sudo apt update >/dev/null || error $LINENO "Failed to update package list" 1
+	sudo apt update >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to update package list" 1
 	message -i "Upgrading packages..."
-	sudo apt upgrade -y >/dev/null || error $LINENO "Failed to upgrade packages" 1
+	sudo apt upgrade -y >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to upgrade packages" 1
 	apt_check php8.0 php8.0-cli php8.0-simplexml
 
 }
@@ -436,7 +436,7 @@ step_composer() {
 		exit $RESULT
 	}
 	message -i "Installing Composer..."
-	composer_install_script || error $LINENO "Failed to install Composer" 1
+	composer_install_script || script_error ${FUNCNAME[0]} $LINENO "Failed to install Composer" 1
 	message -s "Composer installed"
 }
 

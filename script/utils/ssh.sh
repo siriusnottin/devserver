@@ -9,14 +9,13 @@ test_ssh_connection() {
 
   # checks the args
   if [ -z "$server_name" ] || [ -z "$username" ] || [ -z "$ip" ]; then
-    error ${FUNCNAME[0]} ${LINENO} "Missing arguments" 1
+    script_error ${FUNCNAME[1]} ${LINENO} "Missing arguments" 1
   fi
 
   if ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -o ConnectTimeout=$timeout $username@$ip "echo 'SSH connection OK'" >/dev/null; then
     return 0
   else
-    message -e "$server_name is not responding. Please check the the network connection."
-    return 1
+    error "$server_name is not responding. Please check the the network connection." 1
   fi
 
 }

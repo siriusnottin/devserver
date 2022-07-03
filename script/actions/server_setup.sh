@@ -40,7 +40,7 @@ while [ $# -gt 0 ]; do
     fi
     ;;
   *)
-    message -e "Unknown command: $1"
+    error "Unknown command: $1"
     sep
     source $SCRIPT_DIR/actions/print_help.sh
     exit 1

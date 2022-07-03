@@ -26,7 +26,10 @@ VM_LAST_UPDATE="2022-06-09"
 
 # Checks the args
 if [ $# -eq 0 ]; then
-	error ${FUNCNAME[0]} ${LINENO} "No arguments supplied! Use the help command to see the usage" 1
+	error "No arguments supplied!"
+	sep
+	source $SCRIPT_DIR/actions/print_help.sh >&2
+	exit 1
 fi
 
 # Process the args
@@ -57,7 +60,7 @@ while [ $# -gt 0 ]; do
 		break
 		;;
 	*)
-		error ${FUNCNAME[0]} ${LINENO} "Unknown command: $1" 1
+		error "Unknown command: $1" 1
 		;;
 	esac
 	shift

@@ -9,7 +9,7 @@ update_project() {
   if [ "$(grep -c "< 2.2.19" Vagrantfile)" -eq 1 ]; then
     # https://discourse.roots.io/t/vagrant-2-2-19-support/22720/3
     message -i "Updating the project to accept the latest version of Vagrant..."
-    sed -i "s|< 2.2.19|<= 2.2.19|g" Vagrantfile || error ${FUNCNAME[0]} ${LINENO} "Failed to update Vagrantfile" 1
+    sed -i "s|< 2.2.19|<= 2.2.19|g" Vagrantfile || script_error ${FUNCNAME[0]} ${LINENO} "Failed to update Vagrantfile" 1
     message -s "Project updated"
     update=true
   fi
@@ -19,7 +19,7 @@ update_plugins() {
   if [ "$(uname -s)" == "Linux" ]; then
     if [ "$(uname -v | grep -c "Ubuntu")" -eq 1 ]; then
       # https://www.vagrantup.com/docs/cli/plugin#local-1
-      vagrant plugin install --local vagrant-libvirt || error ${FUNCNAME[0]} ${LINENO} "Failed to update vagrant-libvirt" 1
+    vagrant plugin install --local vagrant-libvirt || script_error ${FUNCNAME[0]} ${LINENO} "Failed to update vagrant-libvirt" 1
       update=true
     fi
   fi
@@ -37,11 +37,11 @@ do_vagrant_setup() {
   local path="$2"
 
   # do the setup
-  cd "$path" >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Failed to change to $path" 1
+  cd "$path" >/dev/null || script_error ${FUNCNAME[0]} ${LINENO} "Failed to change to $path" 1
   update_project
   update_plugins
   show_vagrant_box_private_key_path
-  cd - >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Failed to change to $PWD" 1
+  cd - >/dev/null
   if $update; then
     message -s "✅ Project $project setup"
   fi
@@ -66,21 +66,15 @@ else
   read -r -p "Projects folder: [$HOME/projects] " projects_folder
   projects_folder=${projects_folder:-$HOME/projects}
   projects_folder=$(echo $projects_folder | tr '[:upper:]' '[:lower:]')
-  if [ ! -d "$projects_folder" ]; then
-    error ${FUNCNAME[0]} ${LINENO} "Projects folder $projects_folder does not exist" 1
-  fi
+  [ ! -d "$projects_folder" ] && error "Projects folder $projects_folder does not exist" 1
 
   # retrieve all the vagrant projects
   projects=$(find $projects_folder -maxdepth 2 -type d -name "trellis*" -print)
+  [ -z "$projects" ] && error "No vagrant projects found in $HOME/projects" 1
   for project in $projects; do
     # get the project name 1 level up
     projects_name+=($(basename $(dirname $project)))
   done
-
-  if [ -z "${projects}" ]; then
-    message -e "No vagrant projects found in $HOME/projects"
-    exit 1
-  fi
 
   # ask the user to select a project
   message -i "Please choose a project to setup (q to quit)"
@@ -88,7 +82,7 @@ else
     if [ "$project" == "q" ]; then
       exit 0
     elif [ -z "$project" ]; then
-      error ${FUNCNAME[0]} ${LINENO} "No project selected" 1
+      error "No project selected" 1
     else
       do_vagrant_setup "$project" "$projects_folder/$project/trellis"
       break

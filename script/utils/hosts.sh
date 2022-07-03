@@ -7,7 +7,7 @@ add_to_local_hosts() {
   local hosts="$3"
 
   if [ -z "$server_name" ] || [ -z "$ip" ] || [ -z "$hosts" ]; then
-    error ${FUNCNAME[0]} ${LINENO} "Missing arguments" 1
+    script_error ${FUNCNAME[1]} ${LINENO} "Missing arguments" 1
   fi
 
   print_default_ip() {
@@ -60,7 +60,7 @@ add_to_local_hosts() {
   if $edited; then
     message -i "Writing the new hosts file to /etc/hosts"
     message -i "This may require your password to be entered..."
-    cat $tmp_hosts | sudo tee -a /etc/hosts >/dev/null || error ${FUNCNAME[0]} ${LINENO} "Failed to write to /etc/hosts" 1
+    cat $tmp_hosts | sudo tee -a /etc/hosts >/dev/null || script_error ${FUNCNAME[0]} ${LINENO} "Failed to write to /etc/hosts" 1
     message -s "Successfully edited /etc/hosts"
   fi
 

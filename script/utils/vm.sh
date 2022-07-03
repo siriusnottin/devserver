@@ -10,14 +10,14 @@ vm_exists() {
 
   # checks if a vm is passed as an argument
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   fi
 
   if ssh root@$UNRAID_IP "virsh list --all --name | grep \"$vm_domain\"" >/dev/null; then
     return 0
   else
-    message -e "vm $vm_domain does not exist."
+    script_error ${FUNCNAME[1]} $LINENO "vm $vm_domain does not exist."
     return 1
   fi
 
@@ -27,7 +27,7 @@ get_vm_network_interface_infos() {
   if ssh root@$UNRAID_IP "virsh domiflist \"$1\" | sed -n '3p'"; then
     return 0
   else
-    message -e "Could not get the network interface infos for $1"
+    script_error ${FUNCNAME[1]} $LINENO "Could not get the network interface infos for $1"
     return 1
   fi
 }
@@ -36,7 +36,7 @@ get_vm_virsh_net_dhcp_leases_default() {
   if ssh root@$UNRAID_IP "virsh net-dhcp-leases default | grep \"$1\""; then
     return 0
   else
-    message -e "No lease found for $1"
+    script_error ${FUNCNAME[1]} $LINENO "No lease found for $1"
     return 1
   fi
 }
@@ -56,7 +56,7 @@ get_vm_mac() {
 
   # checks if a vm is passed as an argument and if it exists
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   elif ! vm_exists "$vm_domain"; then
     return 1
@@ -66,7 +66,7 @@ get_vm_mac() {
     if get_vm_virsh_net_dhcp_leases_default "$1" >/dev/null; then
       printf "%s\n" "$(get_vm_virsh_net_dhcp_leases_default \"$1\" | awk '{print $3}')"
     else
-      message -e "No mac address found for $1"
+      script_error ${FUNCNAME[1]} $LINENO "No mac address found for $1"
       return 1
     fi
   }
@@ -94,12 +94,12 @@ get_vm_ip() {
 
   # checks if a vm is passed as an argument and if it exists
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   elif ! vm_exists "$vm_domain"; then
     return 1
   elif [ -z "$network_conf_ip_range" ]; then
-    message -e "No network configuration passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No network configuration passed as an argument"
     return 1
   fi
 
@@ -114,11 +114,11 @@ get_vm_ip() {
     if sudo nmap -sP -n "$network_conf_ip_range" | grep -i -B 2 "$VM_MAC" | sed -n '1p' | awk '{print $5}'; then
       return 0
     else
-      message -e "Error scanning the network. Have you installed nmap?"
+      script_error ${FUNCNAME[1]} $LINENO "Error scanning the network. Have you installed nmap?"
       return 1
     fi
   else
-    message -e "Unknown network bridge: $VM_NET"
+    script_error ${FUNCNAME[1]} $LINENO "Unknown network bridge: $VM_NET"
     return 1
   fi
 
@@ -131,7 +131,7 @@ get_vm_state() {
 
   # checks if a vm is passed as an argument and if it exists
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   elif ! vm_exists "$vm_domain"; then
     return 1
@@ -148,7 +148,7 @@ is_vm_running() {
 
   # checks if a vm is passed as an argument and if it exists
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   elif ! vm_exists "$vm_domain"; then
     return 1
@@ -169,7 +169,7 @@ start_vm() {
 
   # checks if a vm is passed as an argument and if it exists
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   elif ! vm_exists "$vm_domain"; then
     return 1
@@ -190,7 +190,7 @@ get_vm_infos() {
 
   # checks if a vm is passed as an argument and if it exists
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   elif ! vm_exists "$vm_domain"; then
     return 1
@@ -216,7 +216,7 @@ get_vm_infos() {
   vm_net_bridge_src=$(get_vm_network_bridge_src $vm_domain)
   vm_net_bridge_src_type() {
     if [ "$vm_net_bridge_src" == "virbr0" ]; then
-      message -e "private"
+      script_error ${FUNCNAME[1]} $LINENO "private"
     elif [ "$vm_net_bridge_src" == "br0" ]; then
       message -s "public"
     fi
@@ -264,12 +264,12 @@ create_vm() {
 
   # checks the args
   if [ -z "$vm_domain" ] || [ -z "$vm_name" ] || [ -z "$vm_username" ]; then
-    message -e "Missing args"
+    script_error ${FUNCNAME[1]} $LINENO "Missing args"
     return 1
   fi
 
   # if the vm already exists, we don't create it
-  ! vm_exists "$vm_domain" || message -e "The vm $vm_domain already exists" >/dev/null
+  ! vm_exists "$vm_domain" || script_error ${FUNCNAME[1]} $LINENO "The vm $vm_domain already exists" >/dev/null
 
   message -i "Creating the vm $vm_domain..."
 
@@ -279,7 +279,7 @@ create_vm() {
   if scp $PARENT_SCRIPT_DIR/devserver.xml root@$UNRAID_IP:/tmp/devserver.xml >/dev/null; then
     : # ok
   else
-    message -e "Failed to copy the vm config file"
+    script_error ${FUNCNAME[1]} $LINENO "Failed to copy the vm config file"
     return 1
   fi
 
@@ -287,7 +287,7 @@ create_vm() {
   if ssh root@$UNRAID_IP 'virsh define /tmp/devserver.xml' >/dev/null; then
     : # ok
   else
-    message -e "Failed to create the vm"
+    script_error ${FUNCNAME[1]} $LINENO "Failed to create the vm"
     return 1
   fi
 
@@ -295,7 +295,7 @@ create_vm() {
   if ssh root@$UNRAID_IP 'rm -v /tmp/devserver.xml' >/dev/null; then
     : # ok
   else
-    message -e "Failed to delete the vm config file"
+    script_error ${FUNCNAME[1]} $LINENO "Failed to delete the vm config file"
     return 1
   fi
 
@@ -305,7 +305,7 @@ create_vm() {
   if ssh root@$UNRAID_IP "virsh start $vm_domain"; then
     : # ok
   else
-    message -e "Failed to start the vm"
+    script_error ${FUNCNAME[1]} $LINENO "Failed to start the vm"
     return 1
   fi
 
@@ -324,7 +324,7 @@ create_vm() {
 
   get_vm_infos "$vm_domain"
   if [ -z "$vm_ip" ]; then
-    message -e "Failed to get the vm ip"
+    script_error ${FUNCNAME[1]} $LINENO "Failed to get the vm ip"
     return 1
   fi
 
@@ -332,7 +332,7 @@ create_vm() {
   if test_ssh_connection "$vm_domain" "$vm_username" "$vm_ip" "$max_wait" /dev/null 2>&1; then
     message -w "✅ The $vm_domain vm is now fully ready"
   else
-    message -e "The $vm_domain vm is installed but it is not responding. Please check the vm status and the network connection."
+    script_error ${FUNCNAME[1]} $LINENO "The $vm_domain vm is installed but it is not responding. Please check the vm status and the network connection."
   fi
 
   # local setup for the vm
@@ -354,7 +354,7 @@ stop_vm() {
 
   # checks if a vm is passed as an argument and if it exists
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   elif ! vm_exists "$vm_domain"; then
     return 1
@@ -371,7 +371,7 @@ stop_vm() {
         vm_stopped=true
         break
       elif [ $i -eq $timeout ]; then
-        message -e "$vm_domain vm could not be stopped in time. Retrying..."
+        script_error ${FUNCNAME[1]} $LINENO "$vm_domain vm could not be stopped in time. Retrying..."
         stop_vm "$vm_domain"
         break
       fi
@@ -388,10 +388,10 @@ delete_vm() {
 
   # checks if a vm is passed as an argument and if it exists
   if [ -z "$vm_domain" ]; then
-    message -e "No vm name passed as an argument"
+    script_error ${FUNCNAME[1]} $LINENO "No vm name passed as an argument"
     return 1
   elif ! vm_exists "$vm_domain" /dev/null 2>&1; then
-    message -e "Can't delete the $vm_domain vm because it doesn't exist"
+    script_error ${FUNCNAME[1]} $LINENO "Can't delete the $vm_domain vm because it doesn't exist"
     return 1
   else
 
@@ -405,11 +405,11 @@ delete_vm() {
       if ssh root@$UNRAID_IP "virsh undefine --domain \"$vm_domain\"" >/dev/null; then
         message -s "Deleted"
       else
-        message -e "Failed to delete the $vm_domain vm"
+        script_error ${FUNCNAME[1]} $LINENO "Failed to delete the $vm_domain vm"
         return 1
       fi
     else
-      message -e "Can't delete the $vm_domain vm because it doesn't exist"
+      script_error ${FUNCNAME[1]} $LINENO "Can't delete the $vm_domain vm because it doesn't exist"
       return 1
     fi
 
