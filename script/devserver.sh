@@ -6,7 +6,7 @@
 
 SCRIPTNAME="$(basename $0)"
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-DEVSERVER_DIR=$(dirname $SCRIPT_DIR)
+PARENT_SCRIPT_DIR=$(dirname $SCRIPT_DIR)
 
 NETWORK_CONFIG_IP_RANGE="192.168.0.10-50" # or "192.168.0.1/24" to scan every ip in the subnet
 

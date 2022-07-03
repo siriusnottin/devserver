@@ -276,7 +276,7 @@ create_vm() {
   sep
 
   message -i "Copying the vm config file to unraid... (/tmp/devserver.xml)"
-  if scp $DEVSERVER_DIR/devserver.xml root@$UNRAID_IP:/tmp/devserver.xml >/dev/null; then
+  if scp $PARENT_SCRIPT_DIR/devserver.xml root@$UNRAID_IP:/tmp/devserver.xml >/dev/null; then
     : # ok
   else
     message -e "Failed to copy the vm config file"

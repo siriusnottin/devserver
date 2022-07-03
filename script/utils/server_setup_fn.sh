@@ -203,7 +203,7 @@ step_zsh_config() {
 
 	create_zsh_config() {
 		message -i "Creating zsh config file..."
-		cp $DEVSERVER_DIR/.zshrc $HOME/.zshrc || error $LINENO "Failed to create zsh config file" 1
+		cp $PARENT_SCRIPT_DIR/.zshrc $HOME/.zshrc || error $LINENO "Failed to create zsh config file" 1
 		message -s "zsh config file created"
 		sep
 		message -c "Please run 'source ~/.zshrc' to apply changes"
@@ -224,7 +224,7 @@ step_zsh_config() {
 	message -i "Checking if a zsh config file exists..."
 	if [ -f "$HOME/.zshrc" ]; then
 		# it's the same file, so we don't need to create it
-		if cmp -s "$DEVSERVER_DIR/.zshrc" "$HOME/.zshrc"; then
+		if cmp -s "$PARENT_SCRIPT_DIR/.zshrc" "$HOME/.zshrc"; then
 			message -w "zsh config file already exists and is the same as the one in the repo. Skipping..."
 		else # it's a different file, so we need to back it up and create the new one
 			message -i "zsh config file already exists and is different from the one in the repo."
