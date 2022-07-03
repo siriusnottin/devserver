@@ -21,10 +21,9 @@ while [ $# -gt 0 ]; do
     if [ $# -gt 0 ]; then # if there are steps to process
       USER_STEPS=("$@")
       break
-    else # no steps specified, with the flag --step so we display all the steps available
+    else
       source $SCRIPT_DIR/actions/print_steps.sh
-      exit 0
-
+      exit 0 # we exit here to not execute the steps later
     fi
     ;;
   *)
