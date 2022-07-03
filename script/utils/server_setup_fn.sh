@@ -168,6 +168,7 @@ step_znap() {
 	step "Znap!"
 	#############################################################################
 
+	if [[ $action == "update" ]]; then
 	if $UPDATE; then
 		message -w "Please run the following command in the terminal:"
 		message -c "znap pull"
@@ -255,6 +256,7 @@ step_homebrew() {
 
 	script_log_step_execution_now
 
+	if [[ $action == "update" ]]; then
 		message -i "Updating homebrew..."
 		brew update >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to update homebrew" 1
 		message -s "Homebrew updated"
@@ -451,6 +453,15 @@ step_nvm() {
 	#############################################################################
 
 	# NVM (https://github.com/nvm-sh/nvm#install--update-script)
+	if [[ $action = "update" ]]; then
+		message -i "To update nvm, run the following command:"
+		sep
+		message -i "nvm upgrade"
+		sep
+		read -p "Press enter to continue..." -n1 -s
+		script_log_step_execution_now
+		exit 0
+	fi
 
 	message -i "Checking if NVM is installed"
 	if [ ! -d "$HOME/.nvm" ]; then
@@ -458,13 +469,6 @@ step_nvm() {
 		message -w "Please, run the script again and wait for the \"znap restart\" instruction!"
 	else
 		message -w "NVM is already installed."
-
-		if [ "$UPDATE" = true ]; then
-			message -i "Updating NVM..."
-			nvm upgrade || error $LINENO "Failed to update NVM" 1
-			message -s "NVM Updated"
-		fi
-
 	fi
 }
 
