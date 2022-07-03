@@ -14,7 +14,7 @@ message -i "  Without any flags, it will show the $VM_DOMAIN vm infos or create 
 sep
 sep -t "Setup or update the devserver vm"
 sep
-message -m "  setup|install|update  [--steps] <steps>"
+message -m "  setup|update  [--steps] <steps>"
 sep
 message -i "  Write only the --steps flag to list all the steps available"
 sep

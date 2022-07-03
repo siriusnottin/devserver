@@ -36,7 +36,7 @@ while [ $# -gt 0 ]; do
 		source $SCRIPT_DIR/actions/vm.sh
 		break
 		;;
-	setup | install | update)
+	setup | update)
 		source $SCRIPT_DIR/actions/server_setup.sh
 		break
 		;;
