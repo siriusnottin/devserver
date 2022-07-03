@@ -504,7 +504,7 @@ step_additional_software() {
 	step "Additional software"
 	#############################################################################
 
-	read -e -p "Additional software to install: " -i "tree neofetch progress" ADD_SOFTWARE
+	read -e -p "Additional software to install: " -i "tree neofetch progress gsed" ADD_SOFTWARE
 	apt_check ${ADD_SOFTWARE}
 	message -s "Additional software installed"
 }
