@@ -51,7 +51,7 @@ SETUP_STEPS_AVAILABLE=(
   "zsh_config"
   "homebrew"
   "github"
-  # "git"
+  "git"
   "trellis"
   "php"
   "composer"

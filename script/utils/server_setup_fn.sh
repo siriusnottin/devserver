@@ -287,10 +287,6 @@ step_github() {
 
 	brew_check gh
 
-	if [ "$UPDATE" = true ]; then
-		exit 0
-	fi
-
 	message -i "Checking if you are already logged in to GitHub..."
 	if gh auth status 2>&1 | grep -qi "You are not logged"; then
 		printf "%s\n" "You are not logged into GitHub. Logging in..."
