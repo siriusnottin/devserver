@@ -6,6 +6,8 @@ sep
 message -w "The steps the script can run: "
 sep
 
+message -m "timezone"
+sep
 message -m "shares"
 sep
 message -m "projects"

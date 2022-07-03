@@ -8,6 +8,11 @@
 
 source $SCRIPT_DIR/utils/package.sh
 
+step_timezone() {
+	message -i "Setting timezone..."
+	sudo timedatectl set-timezone Europe/Paris
+}
+
 # Shares
 # https://forums.unraid.net/topic/71600-unraid-vm-shares/?do=findComment&comment=658008
 step_shares() {

@@ -43,6 +43,7 @@ source $SCRIPT_DIR/utils/server_setup_fn.sh
 # here we can disable or add new steps
 # don't forget to add the step to the list of steps in /actions/print_steps.sh
 SETUP_STEPS_AVAILABLE=(
+  timezone
   update_software
   shares
   projects
