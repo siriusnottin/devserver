@@ -130,6 +130,7 @@ step_update_software_dist() {
 	if [ $? -eq 0 ]; then
 		message -s "Software updated"
 		message -w "Rebooting now..."
+		script_log_step_execution_now
 		sudo shutdown -r now
 	else
 		script_error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
@@ -151,9 +152,9 @@ step_default_shell() {
 		message -i "Changing default shell to zsh..."
 		chsh -s $(which zsh) || script_error ${FUNCNAME[0]} ${LINENO} "Could not change default shell to zsh" 1
 		message -s "Default shell changed"
-		message -w "Please login again to apply changes (then restart the script to continue)"
-		message -i "Exiting..."
-		exit 0
+		message -i "Starting zsh..."
+		script_log_step_execution_now
+		exec zsh -l "source $HOME/.zshrc"
 	else
 		message -w "Default shell is already zsh. Skipping..."
 	fi
@@ -172,8 +173,8 @@ step_znap() {
 		message -c "znap pull"
 		message -w "Then restart the script to continue"
 		read -p "Press enter to continue..." -n1 -s
-		sep
-		return 0
+		script_log_step_execution_now
+		exit 0
 	fi
 
 	read -e -p "Znap folder [~/.zsh-plugins]: " ZNAP_PARENT_FOLDER
@@ -191,7 +192,8 @@ step_znap() {
 		git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git $ZNAP_PATH || script_error ${FUNCNAME[0]} ${LINENO} "Could not install Znap" 1
 		message -s "Znap installed"
 		message -i "Reloading zsh..."
-		exec zsh -l -c "source $HOME/.zshrc && znap restart || error ${FUNCNAME[0]} ${LINENO} "Could not reload zsh" 1
+		script_log_step_execution_now
+		exec zsh -l "source $HOME/.zshrc"
 	else
 		message -w "Znap is already installed. Skipping..."
 	fi
@@ -208,7 +210,7 @@ step_zsh_config() {
 		cp $PARENT_SCRIPT_DIR/.zshrc $HOME/.zshrc || script_error ${FUNCNAME[0]} $LINENO "Failed to create zsh config file" 1
 		message -s "zsh config file created"
 		sep
-		message -c "Please run 'source ~/.zshrc' to apply changes"
+		message -c "Please wait for zsh to reload..."
 		sep
 		message -i "Znap will be loaded automatically (including ohmyzsh and nvm)"
 		sep
@@ -218,9 +220,10 @@ step_zsh_config() {
 		message -i "Read more about it here: https://github.com/marlonrichert/zsh-snap/blob/main/.zshrc"
 		sep
 		read -p "Press enter to continue..." -n1 -s
-		# message -i "Applying zsh config file..."
-		# source $HOME/.zshrc > /dev/null || error $LINENO "Failed to apply zsh config file" 1
-		# message -s "zsh config file applied"
+		message -i "Applying zsh config file..."
+		script_log_step_execution_now
+		source $HOME/.zshrc >/dev/null || error ${FUNCNAME[0]} $LINENO "Failed to apply zsh config file" 1
+		message -s "zsh config file applied"
 	}
 
 	message -i "Checking if a zsh config file exists..."
@@ -250,7 +253,8 @@ step_homebrew() {
 	step "Homebrew"
 	#############################################################################
 
-	if [ "$UPDATE" = true ]; then
+	script_log_step_execution_now
+
 		message -i "Updating homebrew..."
 		brew update >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to update homebrew" 1
 		message -s "Homebrew updated"
@@ -395,6 +399,8 @@ step_trellis() {
 
 step_php() {
 
+	script_log_step_execution_now
+
 	#############################################################################
 	step "PHP"
 	#############################################################################
@@ -468,7 +474,7 @@ step_node() {
 	step "Node"
 	#############################################################################
 
-	message -i "Checking if the latest stable Node version is installed..."
+	script_log_step_execution_now
 	if [ ! -d "$HOME/.nvm/versions/node/$(nvm version node)" ]; then
 		message -i "The latest stable node version is not installed."
 		message -i "Installing node $(nvm version node)"

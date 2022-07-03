@@ -37,6 +37,7 @@ while [ $# -gt 0 ]; do
 done
 
 # we load the steps to be executed
+source $SCRIPT_DIR/utils/script_step_exec_log.sh
 source $SCRIPT_DIR/utils/server_setup_fn.sh
 
 # here we can disable or add new steps
