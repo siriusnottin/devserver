@@ -73,25 +73,19 @@ array_name="${ACTION}_STEPS_AVAILABLE"
 ACTION_STEPS_AVAILABLE="${array_name}[*]"
 ACTION_STEPS_AVAILABLE=(${!ACTION_STEPS_AVAILABLE})
 
-  check_step() {
-  local step="$1"
-    # message -c "Checking step: $step"
-    if [ -z "${1// /}" ]; then
-    script_error ${FUNCNAME[0]} ${LINENO} "Step cannot be empty" 1
-  elif [[ "${ACTION_STEPS_AVAILABLE[*]}" =~ "$step" ]]; then
-      # message -s "Step $step is valid"
-      USER_STEPS_OK+=("$step")
-    else
-      error ${FUNCNAME[0]} ${LINENO} "Step $step is not available to $action" 1
-    fi
-  }
-
 do_user_steps() {
   # checks if the steps are valid
   for step in "${USER_STEPS[@]}"; do
-    # message -s "Step $step is valid"
-    check_step "$step"
+    if [ -z "${step// /}" ]; then
+      error "Step cannot be empty"
+      sep
+      source $SCRIPT_DIR/actions/print_help.sh >&2
+      exit 1
+    elif [[ "${ACTION_STEPS_AVAILABLE[*]}" =~ "$step" ]]; then
     USER_STEPS_OK+=("$step")
+    else
+      error "Step $step is not available to $action" 1
+    fi
   done
 
   # once we have the valid steps, we execute them
