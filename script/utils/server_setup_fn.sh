@@ -188,7 +188,7 @@ step_znap() {
 	ZNAP_PATH="$ZNAP_PARENT_FOLDER/zsh-snap"
 	if [ ! -d "$ZNAP_PATH" ]; then
 		message -i "Installing Znap..."
-		git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ${ZNAP_PATH}/zsh-snap
+		git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git $ZNAP_PATH || script_error ${FUNCNAME[0]} ${LINENO} "Could not install Znap" 1
 		message -s "Znap installed"
 		message -i "Reloading zsh..."
 		exec zsh -l -c "source $HOME/.zshrc && znap restart || error ${FUNCNAME[0]} ${LINENO} "Could not reload zsh" 1
