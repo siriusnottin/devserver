@@ -42,7 +42,7 @@ while [ $# -gt 0 ]; do
   *)
     message -e "Unknown command: $1"
     sep
-    source $SCRIPT_DIR/print_help.sh
+    source $SCRIPT_DIR/actions/print_help.sh
     exit 1
     ;;
   esac
