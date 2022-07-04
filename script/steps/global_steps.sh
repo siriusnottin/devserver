@@ -345,7 +345,7 @@ step_ngrok() {
 		install_app ubuntu ngrok
 	fi
 	install_app macos ngrok/ngrok/ngrok
-	ngrok config add-authtoken 2BNNA2htjPpK8dWEU0frj64zFJb_4nn7KAMXq56maNUa6cq3y
+	ngrok config add-authtoken $NGROK_TOKEN || script_error ${FUNCNAME[0]} $LINENO "Failed to add ngrok auth token" 1
 }
 
 step_composer() {
