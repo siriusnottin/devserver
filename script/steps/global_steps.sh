@@ -344,7 +344,7 @@ step_ngrok() {
 		sudo apt update
 		install_app ubuntu ngrok
 	fi
-	install_app mac ngrok/ngrok/ngrok
+	install_app macos ngrok/ngrok/ngrok
 	ngrok config add-authtoken 2BNNA2htjPpK8dWEU0frj64zFJb_4nn7KAMXq56maNUa6cq3y
 }
 
