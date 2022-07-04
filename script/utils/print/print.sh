@@ -62,5 +62,5 @@ script_error() {
 	else
 		message -e "${parent_function} Error on or near line ${parent_lineno}; exiting with status ${code}" >&2
 	fi
-	[[ -n $code ]] && exit "$code"
+	exit "$code"
 }
