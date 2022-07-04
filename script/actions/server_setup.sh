@@ -5,8 +5,19 @@
 # =============================================================================
 
 action="$1"
+case $OS in
+ubuntu)
+  machine="Server"
+  ;;
+macos)
+  machine="Mac"
+  ;;
+*)
+  script_error ${FUNCNAME[0]} ${LINENO} "Unknown OS" 1
+  ;;
+esac
 
-message -i "Server $action started..."
+message -i "$machine $action started..."
 sep
 
 ACTION=$(echo $action | tr '[:lower:]' '[:upper:]')
@@ -37,6 +48,7 @@ while [ $# -gt 0 ]; do
 done
 
 source $SCRIPT_DIR/utils/script_step_exec_log.sh
+source $SCRIPT_DIR/utils/install_app.sh
 source $SCRIPT_DIR/steps/global_steps.sh
 source $SCRIPT_DIR/steps/ubuntu_steps.sh
 source $SCRIPT_DIR/utils/server_setup_fn.sh

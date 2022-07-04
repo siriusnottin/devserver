@@ -17,7 +17,7 @@ update_project() {
 
 update_plugins() {
   # do only this update if it's a mac
-  if [[ $OS = "mac" ]]; then
+  if [[ $OS = "macos" ]]; then
     # https://www.vagrantup.com/docs/cli/plugin#local-1
     vagrant plugin install --local vagrant-libvirt || script_error ${FUNCNAME[0]} ${LINENO} "Failed to update vagrant-libvirt" 1
     message -s "Plugins updated"

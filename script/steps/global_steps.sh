@@ -64,7 +64,7 @@ step_default_shell() {
 	message -i "Checking the default shell"
 	if [ "$SHELL" != "/usr/bin/zsh" ]; then
 
-		apt_check zsh
+		install_app $OS zsh
 
 		message -i "Changing default shell to zsh..."
 		chsh -s $(which zsh) || script_error ${FUNCNAME[0]} ${LINENO} "Could not change default shell to zsh" 1
@@ -195,7 +195,7 @@ step_homebrew() {
 		message -s "Homebrew installed"
 
 		case $OS in
-		mac)
+		macos)
 			znap eval brew-shellenv 'brew shellenv'
 			;;
 		linux)
@@ -204,8 +204,8 @@ step_homebrew() {
 		esac
 
 		message -i "Installing Homebrew packages..."
-		apt_check build-essential
-		brew_check gcc
+		install_app ubuntu build-essential
+		install_app macos gcc
 		message -s "Homebrew packages installed"
 	fi
 }
@@ -216,7 +216,7 @@ step_github() {
 	step "GitHub"
 	#############################################################################
 
-	brew_check gh
+	install_app brew gh
 
 	message -i "Checking if you are already logged in to GitHub..."
 	if gh auth status 2>&1 | grep -qi "You are not logged"; then
@@ -291,27 +291,33 @@ step_trellis() {
 	# https://docs.roots.io/trellis/master/installation/#requirements)
 	# https://docs.roots.io/trellis/master/python/#ubuntu
 	message -i "Python"
-	apt_check python3 python-is-python3 python3-pip
+	install_app ubuntu python3 python-is-python3 python3-pip
+	if [[ $OS == "macos" ]]; then
+		install_app macos pyenv
+		pyenv global $(pyenv install --list | head -n 1) || script_error ${FUNCNAME[0]} $LINENO "Failed to set pyenv global" 1
+		pyenv rehash || script_error ${FUNCNAME[0]} $LINENO "Failed to rehash pyenv" 1
+		python3 -m ensurepip || script_error ${FUNCNAME[0]} $LINENO "Failed to install python3 pip" 1
+	fi
 	message -s "Python installed"
 
 	sep
 	# https://github.com/roots/trellis-cli#quick-install-macos-and-linux-via-homebrew
 	message -i "Trellis CLI"
-	brew_check roots/tap/trellis-cli
+	install_app brew roots/tap/trellis-cli
 	message -s "Trellis CLI installed"
 
 	# https://virtualenv.pypa.io/en/latest/installation.html
 	# https://gist.github.com/frfahim/73c0fad6350332cef7a653bcd762f08d
 	sep
 	message -i "Virtualenv"
-	apt_check python3-venv
+	install_app ubuntu python3-venv
 	message -s "virtualenv installed"
 
 	sep
 	# VirtualBox (https://www.virtualbox.org/wiki/Linux_Downloads)
 	# See also: https://linuxize.com/post/how-to-install-virtualbox-on-ubuntu-20-04/
 	message -i "VirtualBox"
-	apt_check virtualbox
+	install_app brew virtualbox
 	message -s "VirtualBox installed ($(vboxmanage --version))"
 	message -i "Changing the default Virtualbox VM location"
 	# vboxmanage list systemproperties | grep folder
@@ -319,7 +325,8 @@ step_trellis() {
 	sep
 	# Vagrant (https://www.vagrantup.com/downloads)
 	message -i "Vagrant"
-	apt_check vagrant ruby-dev
+	install_app brew vagrant
+	install_app ubuntu ruby-dev # todo: mac
 	message -s "Vagrant installed ($(vagrant -v))"
 	message -i "Don't forget to run \"$SCRIPTNAME vagrant\" in your vagrant projects or anywhere else to successfully run vagrant"
 }
@@ -330,7 +337,13 @@ step_ngrok() {
 	step "ngrok"
 	#############################################################################
 
-	curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && apt_check ngrok
+	if [[ $OS == "ubuntu" ]]; then
+		curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+		echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+		sudo apt update
+		install_app ubuntu ngrok
+	fi
+	install_app mac ngrok/ngrok/ngrok
 	ngrok config add-authtoken 2BNNA2htjPpK8dWEU0frj64zFJb_4nn7KAMXq56maNUa6cq3y
 }
 
@@ -430,6 +443,6 @@ step_additional_software() {
 	#############################################################################
 
 	read -e -p "Additional software to install: " -i "tree neofetch progress gsed" ADD_SOFTWARE
-	apt_check ${ADD_SOFTWARE}
+	install_app $OS ${ADD_SOFTWARE}
 	message -s "Additional software installed"
 }

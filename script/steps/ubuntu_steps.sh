@@ -17,7 +17,7 @@ step_shares() {
   printf "%s\n" "username=$VM_DOMAIN" "password=MWV.pcp*zxd@ujc2rge" | sudo tee $credentials_file >/dev/null || script_error ${FUNCNAME[0]} ${LINENO} "Could not write to $credentials_file" 1
   sudo chmod 600 $credentials_file || script_error ${FUNCNAME[0]} ${LINENO} "Could not change permissions on $credentials_file" 1
 
-  apt_check cifs-utils
+  install_app ubuntu cifs-utils
 
   read -e -p "Shares to mount: " -i "projects virtualbox" -a SHARES
   local edited=false
@@ -96,13 +96,13 @@ step_php() {
   #############################################################################
 
   message -i "Installing PHP..."
-  apt_check software-properties-common ca-certificates apt-transport-https
+  install_app ubuntu software-properties-common ca-certificates apt-transport-https
   message -i "Adding PHP repository..."
   sudo add-apt-repository ppa:ondrej/php -y >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to add PHP repository" 1
   message -i "Updating package list..."
   sudo apt update >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to update package list" 1
   message -i "Upgrading packages..."
   sudo apt upgrade -y >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to upgrade packages" 1
-  apt_check php8.0 php8.0-cli php8.0-simplexml
+  install_app ubuntu --no-install-recommends php8.0 php8.0-cli php8.0-simplexml
 
 }
