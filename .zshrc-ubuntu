@@ -1,0 +1,47 @@
+# Download Znap, if it's not there yet.
+[[ -f ~/.zsh-plugins/zsh-snap/znap.zsh ]] ||
+  git clone --depth 1 -- \
+    https://github.com/marlonrichert/zsh-snap.git ~/.zsh-plugins/zsh-snap
+
+source ~/.zsh-plugins/zsh-snap/znap.zsh
+
+ZSH_THEME="robbyrussell"
+
+znap source ohmyzsh/ohmyzsh
+
+znap prompt ohmyzsh/ohmyzsh "$ZSH_THEME"
+
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
+znap source supercrabtree/k
+
+zstyle ':omz:update' mode reminder # update automatically without asking
+omz_plugins=(npm wp-cli git zsh-interactive-cd)
+
+for plugin in "${omz_plugins[@]}"; do
+  znap source "ohmyzsh/ohmyzsh plugins/$plugin"
+done
+
+znap eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# https://github.com/roots/trellis-cli#virtualenv
+znap function _trellis trellis 'eval "$(trellis shell-init zsh)"'
+compctl -K _trellis trellis
+
+znap function _pyenv pyenv 'eval "$( pyenv init - --no-rehash )"'
+compctl -K _pyenv pyenv
+
+# NVM
+export NVM_COMPLETION=true
+# export NVM_LAZY_LOAD=true
+znap source lukechilds/zsh-nvm
+
+# React
+cra() {
+  if [ -z "${1// /}" ]; then
+    echo "No application name provided" >&2
+    return 1
+  else
+    npx create-react-app "$1"
+  fi
+}

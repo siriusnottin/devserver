@@ -1,0 +1,106 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Download Znap, if it's not there yet.
+[[ -f ~/.zsh-plugins/zsh-snap/znap.zsh ]] ||
+  git clone --depth 1 -- \
+    https://github.com/marlonrichert/zsh-snap.git ~/.zsh-plugins/zsh-snap
+
+source ~/.zsh-plugins/zsh-snap/znap.zsh
+
+source ~/.zprofile
+
+export PATH=~/.local/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
+export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+ZSH_THEME="robbyrussell"
+
+znap source ohmyzsh/ohmyzsh
+
+znap prompt ohmyzsh/ohmyzsh "$ZSH_THEME"
+
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
+znap source supercrabtree/k
+
+zstyle ':omz:update' mode reminder # update automatically without asking
+# omz_plugins=(macos npm wp-cli git zsh-interactive-cd)
+
+# for plugin in "${omz_plugins[@]}"; do
+#   znap source "ohmyzsh/ohmyzsh plugins/$plugin"
+# done
+
+znap source "ohmyzsh/ohmyzsh plugins/macos"
+znap source "ohmyzsh/ohmyzsh plugins/npm"
+znap source "ohmyzsh/ohmyzsh plugins/wp-cli"
+znap source "ohmyzsh/ohmyzsh plugins/git"
+znap source "ohmyzsh/ohmyzsh plugins/zsh-interactive-cd"
+
+znap eval brew-shellenv 'brew shellenv'
+
+# https://github.com/roots/trellis-cli#virtualenv
+znap function _trellis trellis 'eval "$(trellis shell-init zsh)"'
+compctl -K _trellis trellis
+
+znap function _pyenv pyenv 'eval "$( pyenv init - --no-rehash )"'
+compctl -K _pyenv pyenv
+
+# NVM
+export NVM_COMPLETION=true
+# export NVM_LAZY_LOAD=true
+znap source lukechilds/zsh-nvm
+
+# use gnu-sed instead of the mac osx sed
+alias sed=gsed
+
+# =================== Spotify ===============================
+# Spotify is supported using the OMZSH MacOS plugin. (using the official Spotify API)
+# Raycast is also using the official API.
+
+alias spp="spotify pause"
+
+spotify() {
+  local track=$(spotify status track)
+  local artist=$(spotify status artist)
+  case "$1" in
+  show)
+    printf "%s\n" "$track ($artist)"
+    ;;
+  search)
+    local search="$track $artist music"
+    google "$search"
+    ;;
+  *)
+    printf "Usage: spotifyshow [show|search]"
+    ;;
+  esac
+}
+
+# GitHub
+alias gho="gh repo view -w"
+
+# React
+cra() {
+  if [ -z "${1// /}" ]; then
+    echo "No application name provided" >&2
+    return 1
+  else
+    npx create-react-app "$1"
+  fi
+}
+
+# Iterm2
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# ==========================================================
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
