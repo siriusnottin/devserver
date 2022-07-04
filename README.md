@@ -88,7 +88,9 @@ My setup is the same as their example (for now):
 
 - [X] Make a script.
 - [ ] Use [Starship theme](https://github.com/starship/starship): I did not succeded setting up this theme with znap.
-- [ ] Fix the commands that can't be executed from this script. ([Issue #1](https://github.com/siriusnottin/devserver/issues/1))
+- [X] Fix the commands that can't be executed from this script. ([Issue #1](https://github.com/siriusnottin/devserver/issues/1))
+- [ ] Add a command to create a new vm.
+- [ ] List all my mac apps to install them using brew.
 - [ ] Refactor.
 
 ## Reflexion on the setup
