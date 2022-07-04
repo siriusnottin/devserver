@@ -327,7 +327,7 @@ step_trellis() {
 	# Vagrant (https://www.vagrantup.com/downloads)
 	message -i "Vagrant"
 	install_app brew vagrant
-	install_app ubuntu ruby-dev # todo: mac
+	install_app ubuntu ruby-dev # todo: macos
 	message -s "Vagrant installed ($(vagrant -v))"
 	message -i "Don't forget to run \"$SCRIPTNAME vagrant\" in your vagrant projects or anywhere else to successfully run vagrant"
 }
