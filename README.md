@@ -81,7 +81,7 @@ I just followed the [iTerm2 documentation](https://iterm2.com/documentation-tmux
 
 My setup is the same as their example (for now):
 
-1. local tmux profile: `/usr/local/bin/tmux -CC new -A -s main`
+1. local tmux profile: `tmux -CC new -A -s main`
 2. devserver tmux profile: `ssh -t devserver 'tmux -CC new -A -s main'`
 
 ## Todo

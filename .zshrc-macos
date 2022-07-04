@@ -12,10 +12,8 @@ source ~/.zsh-plugins/zsh-snap/znap.zsh
 
 source ~/.zprofile
 
-export PATH=~/.local/bin:$PATH
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-
-export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 ZSH_THEME="robbyrussell"
 
