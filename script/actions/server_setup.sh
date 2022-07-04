@@ -20,8 +20,6 @@ esac
 message -i "$machine $action started..."
 sep
 
-ACTION=$(echo $action | tr '[:lower:]' '[:upper:]')
-
 shift
 
 while [ $# -gt 0 ]; do
@@ -82,8 +80,7 @@ UPDATE_STEPS_AVAILABLE=(update_software_dist znap homebrew nvm nod)
 UPDATE_STEPS_AVAILABLE_UBUNTU=(update_software_dist znap homebrew nvm node)
 
 # https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference
-OS_CAP=$(echo $OS | tr '[:lower:]' '[:upper:]')
-array_name="${ACTION}_STEPS_AVAILABLE_${OS_CAP}"
+array_name=$(echo "${action}_STEPS_AVAILABLE_${OS}" | tr '[:lower:]' '[:upper:]')
 ACTION_STEPS_AVAILABLE="${array_name}[*]"
 ACTION_STEPS_AVAILABLE=(${!ACTION_STEPS_AVAILABLE})
 
