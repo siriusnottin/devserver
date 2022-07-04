@@ -97,6 +97,7 @@ step_znap() {
 	fi
 
 	read -e -p "Znap folder [~/.zsh-plugins]: " ZNAP_PARENT_FOLDER
+	ZNAP_PARENT_FOLDER="${ZNAP_PARENT_FOLDER/#\~/$HOME}"
 	ZNAP_PARENT_FOLDER=${ZNAP_PARENT_FOLDER:-"$HOME/.zsh-plugins"}
 	message -i "Checking if Znap is already installed..."
 	if [ ! -d "$ZNAP_PARENT_FOLDER" ]; then
