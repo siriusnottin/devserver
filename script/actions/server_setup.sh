@@ -7,17 +7,17 @@
 action="$1"
 case $OS in
 ubuntu)
-  machine="Server"
+  machine_type="Server"
   ;;
 macos)
-  machine="Mac"
+  machine_type="Mac"
   ;;
 *)
   script_error ${FUNCNAME[0]} ${LINENO} "Unknown OS" 1
   ;;
 esac
 
-message -i "$machine $action started..."
+message -i "$machine_type $action started..."
 sep
 
 shift
