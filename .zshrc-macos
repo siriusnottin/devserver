@@ -25,15 +25,17 @@ znap source supercrabtree/k
 
 zstyle ':omz:update' mode reminder
 
-# for plugin in "${omz_plugins[@]}"; do
-#   znap source "ohmyzsh/ohmyzsh plugins/$plugin"
-# done
+omz_plugins=(
+  zsh-interactive-cd
+  macos
+  git
+  npm
+  wp-cli
+)
 
-znap source "ohmyzsh/ohmyzsh plugins/macos"
-znap source "ohmyzsh/ohmyzsh plugins/npm"
-znap source "ohmyzsh/ohmyzsh plugins/wp-cli"
-znap source "ohmyzsh/ohmyzsh plugins/git"
-znap source "ohmyzsh/ohmyzsh plugins/zsh-interactive-cd"
+for plugin in "${omz_plugins[@]}"; do
+  znap source ohmyzsh/ohmyzsh plugins/$plugin
+done
 
 znap eval brew-shellenv 'brew shellenv'
 
