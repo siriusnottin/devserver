@@ -23,8 +23,7 @@ znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 znap source supercrabtree/k
 
-zstyle ':omz:update' mode reminder # update automatically without asking
-# omz_plugins=(macos npm wp-cli git zsh-interactive-cd)
+zstyle ':omz:update' mode reminder
 
 # for plugin in "${omz_plugins[@]}"; do
 #   znap source "ohmyzsh/ohmyzsh plugins/$plugin"
