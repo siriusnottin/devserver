@@ -101,7 +101,7 @@ do_user_steps() {
 
   # once we have the valid steps, we execute them
   for step in "${USER_STEPS_OK[@]}"; do
-    eval step_"$step"
+    eval step_"$step" # Todo: sanitize the step name
   done
 
   return 0
@@ -110,7 +110,7 @@ do_user_steps() {
 do_all_steps() {
   message -w "No steps specified, running all steps..."
   for step_fn in "${ACTION_STEPS_AVAILABLE[@]}"; do
-    eval step_"$step_fn"
+    eval step_"$step_fn" # Todo: sanitize the step name
   done
 }
 
