@@ -15,11 +15,9 @@ source ~/.zprofile
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-ZSH_THEME="robbyrussell"
-
 znap source ohmyzsh/ohmyzsh
 
-znap prompt ohmyzsh/ohmyzsh "$ZSH_THEME"
+znap prompt spaceship-prompt/spaceship-prompt
 
 znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting

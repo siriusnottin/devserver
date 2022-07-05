@@ -5,11 +5,9 @@
 
 source ~/.zsh-plugins/zsh-snap/znap.zsh
 
-ZSH_THEME="robbyrussell"
-
 znap source ohmyzsh/ohmyzsh
 
-znap prompt ohmyzsh/ohmyzsh "$ZSH_THEME"
+znap prompt spaceship-prompt/spaceship-prompt
 
 znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
