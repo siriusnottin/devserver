@@ -49,3 +49,5 @@ cra() {
     npx create-react-app "$1"
   fi
 }
+
+export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
