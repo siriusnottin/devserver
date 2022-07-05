@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Prints the steps the script can run
+# Todo: take into account the update steps
 
 sep
 message -w "The steps the script can run: "
