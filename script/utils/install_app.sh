@@ -26,7 +26,7 @@ install_app() {
 
 		case $install_os in
 		ubuntu)
-			[ $cask ] && error "Can't install cask packages on ubuntu. Did you mean to install it on mac?" 1
+			[ $install_cask ] && error "Can't install cask packages on ubuntu. Did you mean to install it on mac?" 1
 
 			is_installed="dpkg -s $app | grep -c \"Status: install ok installed\""
 			[[ $1 == "--no-install-recommends" ]] && local norec="$1" && shift
@@ -36,11 +36,11 @@ install_app() {
 			;;
 		macos | brew)
 			is_installed="brew list"
-			[ $cask ] && is_installed+=" --casks"
+			[ $install_cask ] && is_installed+=" --casks"
 			is_installed+=" | grep -c $app"
 
 			install_cmd="brew install"
-			[ $cask ] && install_cmd+=" --cask"
+			[ $install_cask ] && install_cmd+=" --cask"
 			install_cmd+=" $app"
 			;;
 		*)
