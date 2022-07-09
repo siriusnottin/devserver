@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prints the steps the script can run
-# Todo: take into account the update steps
+# TODO: Get the steps dynamically from the README.md file in the steps directory
 
 sep
 message -w "The steps the script can run: "

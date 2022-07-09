@@ -80,7 +80,7 @@ for arg in "$@"; do
     ;;
   -n | --new)
     message -w "Not implemented yet"
-    # todo implement the new vm command
+    # TODO: implement the new vm command
     # shift
     # if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
     #   error "Missing arguments"

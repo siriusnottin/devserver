@@ -50,7 +50,7 @@ install_app() {
 		shift
 
 		message -i "Checking if $app is installed..."
-		# Todo: sanitize eval before using it
+		# TODO: sanitize eval before using it
 		if eval "$is_installed $app" &>/dev/null; then
 			message -w "$app is already installed. Skipping..."
 		else
