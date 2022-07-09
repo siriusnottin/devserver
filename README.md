@@ -23,7 +23,11 @@ I also use this repo to share my setup and what I learned along the way. Also in
 - Install or update predefined software and settings ([see the full list here](script/steps/))
 - Custom setup for Trellis
 
+Do `devserver help` once the script is installed to get more detailed information.
+
 ## Usefull commands
+
+Because they are new to me and I forget them, I will list them here:
 
 ### Manage VMs
 
@@ -49,10 +53,11 @@ The settings that I use to setup my VM. If a setting is not listed here, it's th
 - 4Go RAM
 - BIOS: SeaBIOS
 - vDisk size: 40G (my files are on a share bellow)
-- Shares
+- Shares (setup by the script)
   - `/mnt/projects`: all my git repos.
   - `/mnt/virtualbox`: my virtualbox machines.
 - Network bridge: br0 (so the vm is like a physical computer on my network.)
+  But it can also work if the network interface is managed by the VM engine.
 
 [XML file for the vm](/devserver_ubuntu.xml) • [Unraid setup]() • [Unraid share setup]()
 
