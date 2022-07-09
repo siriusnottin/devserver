@@ -64,22 +64,14 @@ On the vm first boot:
 2. Setup the server name, user and password.
 3. Add ssh key to the vm. ([Maybe create a new one?](https://code.visualstudio.com/docs/remote/troubleshooting#_improving-your-security-with-a-dedicated-key))
 
-Now ssh into the vm ([see local setup](#local-hosts)) and clone this repo and execute the script:
+## Script Installation
 
+On your local machine:
 ```bash
-ssh devserver
-git clone https://github.com/siriusnottin/devserver.git ~/.devserver
-$(sudo ln -s ~/.devserver/script/devserver.sh /usr/local/bin/devserver)
-devserver setup # h or help to see the commands
+git clone https://github.com/siriusnottin/devserver.git ~/.devserver && bash ~/.devserver/script/script_setup.sh
 ```
 
-## Local Setup
-
-```bash
-git clone https://github.com/siriusnottin/devserver.git ~/.devserver
-$(ln -s ~/.devserver/script/devserver.sh /usr/local/bin/devserver)
-devserver local
-```
+This command will clone the repo and install the script both locally and remotely.
 
 ### VS Code
 
