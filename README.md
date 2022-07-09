@@ -1,8 +1,27 @@
 # My dev server setup
 
-My setup for my development environment in a virtual machine on Unraid. **It's still a work in progress**. The vm is running on my home lab.
+A script to create and manage my virtual machine on Unraid or my Mac. Feel free to check it out and contribute if you can!
 
-I use this repo to share my setup and what I learned along the way. Also in case I need to restart from scratch :)
+I also use this repo to share my setup and what I learned along the way. Also in case I need to restart from scratch :)
+
+**Currently this repo is a work in progress.**
+
+## Requirements
+
+- MacOS or Ubuntu 22.04
+- Shell: Bash v4.4+ or Zsh v5.8+
+
+**Note:** Zsh will automatically be installed and selected as your default shell by the script if you launch the setup.
+
+## What the script can do
+
+- Create or delete a new VM from a [template](devserver.xml)
+- ~~Create a new VM with custom settings (name, memory, etc)~~ (not implemented yet, help is welcome)
+- Get the infos of a VM (name, IP, etc)
+- Allocate more disk space to a VM (and resize the vdisk automatically)
+- Setup local hosts (no need to manually get the vm IP)
+- Install or update predefined software and settings ([see the full list here](script/steps/))
+- Custom setup for Trellis
 
 ## Usefull commands
 
@@ -81,13 +100,13 @@ I just followed the [iTerm2 documentation](https://iterm2.com/documentation-tmux
 
 My setup is the same as their example (for now):
 
-1. local tmux profile: `tmux -CC new -A -s main`
-2. devserver tmux profile: `ssh -t devserver 'tmux -CC new -A -s main'`
+- local: local tmux profile: `tmux -CC new -A -s main`
+- devserver: devserver tmux profile: `ssh -t devserver 'tmux -CC new -A -s main'`
 
 ## Todo
 
 - [X] Make a script.
-- [ ] Use [Starship theme](https://github.com/starship/starship): I did not succeded setting up this theme with znap.
+- [X] Use [Starship theme](https://github.com/starship/starship): I did not succeded setting up this theme with znap.
 - [X] Fix the commands that can't be executed from this script. ([Issue #1](https://github.com/siriusnottin/devserver/issues/1))
 - [ ] Add a command to create a new vm.
 - [ ] List all my mac apps to install them using brew.
@@ -107,4 +126,4 @@ I don't know yet if I should use `rsync` instead of an `unraid share` mounted on
 
 For me in the absolute, it's ideal to use the unraid share so I can setup the smallest size for the vDisk and let the rest be dynamic ; for now I am experiencing some performance issues with Git…
 
-**Quick links:** [Home Lab project](https://nottin.me/lab) • [Renovation project](https://siriusrenove.fr) • [Website](https://nottin.me) • [Twitter](https://twitter.com/siriusnottin)
+**Quick links:** [Home Lab project](https://siriusrenove.fr/lab) • [Renovation project](https://siriusrenove.fr) • [Website](https://nottin.me) • [Twitter](https://twitter.com/siriusnottin)
