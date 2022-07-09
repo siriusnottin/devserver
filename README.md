@@ -37,12 +37,19 @@ virsh start <vmname>
 virsh shutdown <vmname>
 ```
 
-### Allocate more space
+### Show the total allocated/used space for the vm
 
 ```bash
-qemu-img info <image>
-qemu-img resize <image> <size>G
+ssh -t unraid "qemu-img info <vmname>" # shows the total allocated space for the vm
+ssh -t <vmname> "devserver vm --disk info" # shows the total used space by the vm
+
+# If the vm doesn't use all the allocated space, you can resize it with:
+ssh -t <vmname> "devserver vm --disk resize"
 ```
+
+**Note:** normally you don't need to do all of this because the script will do the check for you, and will resize the disk to use all the space if needed.
+
+So, if you just changed the size of the vm and want it to effectively use all the space, you can just run the last command shown above.
 
 ## VM Specs
 
