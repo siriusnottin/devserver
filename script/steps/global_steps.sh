@@ -39,16 +39,16 @@ step_update_software_dist() {
 	message -i "Updating the software"
 	sudo apt update
 	sudo apt upgrade -y
-	sudo apt dist-upgrade -y
-	sudo apt autoremove -y
-	sudo apt autoclean -y
-	sudo apt clean -y
+		sudo apt dist-upgrade -y
+		sudo apt autoremove -y
+		sudo apt autoclean -y
+		sudo apt clean -y
 
 	if [ $? -eq 0 ]; then
-		message -s "Software updated"
-		message -w "Rebooting now..."
-		script_log_step_execution_now
-		sudo shutdown -r now
+	message -s "Software updated"
+	message -w "Rebooting now..."
+	script_log_step_execution_now
+	sudo shutdown -r now
 	else
 		script_error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
 	fi
@@ -290,16 +290,6 @@ step_trellis() {
 	#############################################################################
 
 	# https://docs.roots.io/trellis/master/installation/#requirements)
-	# https://docs.roots.io/trellis/master/python/#ubuntu
-	message -i "Python"
-	install_app ubuntu python3 python-is-python3 python3-pip
-	if [[ $OS == "macos" ]]; then
-		install_app macos pyenv
-		pyenv global $(pyenv install --list | head -n 1) || script_error ${FUNCNAME[0]} $LINENO "Failed to set pyenv global" 1
-		pyenv rehash || script_error ${FUNCNAME[0]} $LINENO "Failed to rehash pyenv" 1
-		python3 -m ensurepip || script_error ${FUNCNAME[0]} $LINENO "Failed to install python3 pip" 1
-	fi
-	message -s "Python installed"
 
 	sep
 	# https://github.com/roots/trellis-cli#quick-install-macos-and-linux-via-homebrew
@@ -311,8 +301,19 @@ step_trellis() {
 	# https://gist.github.com/frfahim/73c0fad6350332cef7a653bcd762f08d
 	sep
 	message -i "Virtualenv"
-	install_app ubuntu python3-venv
+	install_app ubuntu python3-venv || install_app macos pyenv
 	message -s "virtualenv installed"
+
+	sep
+	# https://docs.roots.io/trellis/master/python/#ubuntu
+	message -i "Python"
+	install_app ubuntu python3 python-is-python3 python3-pip
+	if [[ $OS == "macos" ]]; then
+		pyenv global $(pyenv install --list | head -n 1) || script_error ${FUNCNAME[0]} $LINENO "Failed to set pyenv global" 1
+		pyenv rehash || script_error ${FUNCNAME[0]} $LINENO "Failed to rehash pyenv" 1
+		python3 -m ensurepip || script_error ${FUNCNAME[0]} $LINENO "Failed to install python3 pip" 1
+	fi
+	message -s "Python installed"
 
 	sep
 	# VirtualBox (https://www.virtualbox.org/wiki/Linux_Downloads)
@@ -326,8 +327,7 @@ step_trellis() {
 	sep
 	# Vagrant (https://www.vagrantup.com/downloads)
 	message -i "Vagrant"
-	install_app brew vagrant
-	install_app ubuntu ruby-dev # todo: macos
+	install_app brew vagrant && install_app ubuntu ruby-dev
 	message -s "Vagrant installed ($(vagrant -v))"
 	message -i "Don't forget to run \"$SCRIPTNAME vagrant\" in your vagrant projects or anywhere else to successfully run vagrant"
 }
