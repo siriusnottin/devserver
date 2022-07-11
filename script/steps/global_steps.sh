@@ -23,35 +23,48 @@ step_projects() {
 
 }
 
-step_update_software() {
-	message -i "Updating software..."
-	sudo apt update || script_error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
-	sudo apt upgrade -y || script_error ${FUNCNAME[0]} ${LINENO} "Could not upgrade software" 1
-	message -s "Software updated"
+step_update_softwares() {
+	message -i "Updating softwares..."
+	case $OS in
+	ubuntu)
+		sudo apt update || script_error ${FUNCNAME[0]} ${LINENO} "Could not update softwares" 1
+		sudo apt upgrade -y || script_error ${FUNCNAME[0]} ${LINENO} "Could not upgrade softwares" 1
+		;;
+	macos)
+		sudo softwareupdate -i -r || script_error ${FUNCNAME[0]} ${LINENO} "Could not update softwares" 1
+		;;
+	esac
+	brew update || script_error ${FUNCNAME[0]} ${LINENO} "Could not update brew softwares" 1
+	brew upgrade || script_error ${FUNCNAME[0]} ${LINENO} "Could not upgrade brew softwares" 1
+	message -s "Softwares updated"
 }
 
-step_update_software_dist() {
+step_update_softwares_cleanup() {
 
 	#############################################################################
 	step "Software update"
 	#############################################################################
 
-	message -i "Updating the software"
-	sudo apt update
-	sudo apt upgrade -y
+	step_update_software
+	message -i "Cleaning up..."
+	case $OS in
+	ubuntu)
 		sudo apt dist-upgrade -y
 		sudo apt autoremove -y
 		sudo apt autoclean -y
 		sudo apt clean -y
+		[[ $? -ne 0 ]] && script_error ${FUNCNAME[0]} ${LINENO} "Could not clean up" 1
+		;;
+	macos)
+		brew cleanup || script_error ${FUNCNAME[0]} ${LINENO} "Could not cleanup" 1
+		sudo softwareupdate -i -a || script_error ${FUNCNAME[0]} ${LINENO} "Could not update all softwares" 1
+		;;
+	esac
 
-	if [ $? -eq 0 ]; then
 	message -s "Software updated"
 	message -w "Rebooting now..."
 	script_log_step_execution_now
 	sudo shutdown -r now
-	else
-		script_error ${FUNCNAME[0]} ${LINENO} "Could not update software" 1
-	fi
 
 }
 
