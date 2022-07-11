@@ -58,7 +58,6 @@ SETUP_STEPS_AVAILABLE_UBUNTU=(
   update_software
   shares
   projects
-  # multiple_users
   default_shell
   znap
   zsh_config
