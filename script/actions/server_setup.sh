@@ -49,7 +49,7 @@ source $SCRIPT_DIR/utils/script_step_exec_log.sh
 source $SCRIPT_DIR/utils/install_app.sh
 source $SCRIPT_DIR/steps/global_steps.sh
 source $SCRIPT_DIR/steps/ubuntu_steps.sh
-source $SCRIPT_DIR/utils/server_setup_fn.sh
+source $SCRIPT_DIR/steps/macos_steps.sh
 
 # here we can disable or add new steps
 # don't forget to add the step to the list of steps in /actions/print_steps.sh
@@ -58,7 +58,6 @@ SETUP_STEPS_AVAILABLE_UBUNTU=(
   update_software
   shares
   projects
-  # multiple_users
   default_shell
   znap
   zsh_config
@@ -75,9 +74,29 @@ SETUP_STEPS_AVAILABLE_UBUNTU=(
   additional_software
 )
 
-UPDATE_STEPS_AVAILABLE=(update_software_dist znap homebrew nvm nod)
+SETUP_STEPS_AVAILABLE_MACOS=(
+  update_software
+  xcode_dev_tools
+  install_mac_apps
+  code_remote_ssh
+  projects
+  default_shell
+  znap
+  zsh_config
+  homebrew
+  github
+  git
+  trellis
+  ngrok
+  composer
+  nvm
+  node
+  yarn
+  additional_software
+)
 
 UPDATE_STEPS_AVAILABLE_UBUNTU=(update_software_dist znap homebrew nvm node)
+UPDATE_STEPS_AVAILABLE_MACOS=(update_software_dist znap homebrew nvm node)
 
 # https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference
 array_name=$(echo "${action}_STEPS_AVAILABLE_${OS}" | tr '[:lower:]' '[:upper:]')

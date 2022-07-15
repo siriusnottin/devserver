@@ -1,46 +1,7 @@
 #!/bin/bash
 
 # Prints the steps the script can run
-# TODO: Get the steps dynamically from the README.md file in the steps directory
 
-sep
-message -w "The steps the script can run: "
-sep
-
-message -m "timezone"
-sep
-message -m "shares"
-sep
-message -m "projects"
-sep
-message -m "multiple_users"
-message -i "If you have multiple users on your server"
-sep
-message -m "default_shell"
-message -i "Change the default shell to zsh if not already done"
-sep
-message -m "znap"
-sep
-message -m "zsh_config"
-sep
-message -m "homebrew"
-sep
-message -m "github"
-sep
-message -m "git"
-sep
-message -m "trellis"
-sep
-message -m "ngrok"
-sep
-message -m "php"
-sep
-message -m "composer"
-sep
-message -m "nvm"
-sep
-message -m "node"
-sep
-message -m "yarn"
-sep
-message -m "additional_software"
+steps_file="$SCRIPT_DIR/steps/README.md"
+# get all lines between "##"
+cat "$steps_file" | grep -E "^##" | sed "s/^###//" | sed "s/^/  /"
