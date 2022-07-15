@@ -343,9 +343,12 @@ step_ngrok() {
 		echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
 		sudo apt update
 		install_app ubuntu ngrok
+		exit 0
 	fi
 	install_app macos ngrok/ngrok/ngrok
-	ngrok config add-authtoken $NGROK_TOKEN || script_error ${FUNCNAME[0]} $LINENO "Failed to add ngrok auth token" 1
+	message -i "Configuring ngrok..."
+	ngrok config add-authtoken $NGROK_TOKEN || script_error ${FUNCNAME[0]} $LINENO "Failed to configure ngrok" 1
+	message -s "ngrok configured"
 }
 
 step_composer() {
