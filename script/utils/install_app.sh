@@ -18,9 +18,9 @@ install_app() {
 
 	for app in "$@"; do
 
-		case $OS in
+		case $install_os in
 		macos | ubuntu)
-			[[ $OS != $install_os ]] && error "Can't install $app on $OS." 1
+			[[ $OS != $install_os ]] && error "Can't install $app on $OS."
 			;;
 		esac
 
