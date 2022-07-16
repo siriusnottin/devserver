@@ -87,10 +87,7 @@ step_default_shell() {
 		message -s "Default shell changed"
 		message -i "Starting zsh..."
 		script_log_step_execution_now
-		exec zsh -l "source $HOME/.zshrc"
-	else
-		message -w "Default shell is already zsh. Skipping..."
-	fi
+	exec zsh -l "exec $HOME/.zshrc"
 }
 
 step_znap() {
