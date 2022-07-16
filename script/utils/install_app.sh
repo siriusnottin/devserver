@@ -37,7 +37,7 @@ install_app() {
 		macos | brew)
 			is_installed="brew list"
 			[ $install_cask ] && is_installed+=" --casks"
-			is_installed+=" | grep -c $app"
+			is_installed+=" | grep -x $app"
 
 			install_cmd="brew install"
 			[ $install_cask ] && install_cmd+=" --cask"
