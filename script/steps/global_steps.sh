@@ -75,7 +75,10 @@ step_default_shell() {
 	#############################################################################
 
 	message -i "Checking the default shell"
-	if [ "$SHELL" != "/usr/bin/zsh" ]; then
+	if [[ $SHELL == *"zsh"* ]]; then
+		message -w "Default shell is already zsh. Skipping..."
+		return 0
+	fi
 
 		install_app $OS zsh
 
