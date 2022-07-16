@@ -127,12 +127,12 @@ step_install_mac_apps() {
 
   sep -l "Installing Mac Apps"
   sep
-  install_app mac --cask "${apps[*]}"
+  install_app macos --cask "${apps[*]}"
   sep
 
   sep -l "Installing Quick Look Plugins"
   sep
-  install_app mac --cask "${qlplugins[*]}"
+  install_app macos --cask "${qlplugins[*]}"
   sep
 
   export HOMEBREW_NO_AUTO_UPDATE=0
