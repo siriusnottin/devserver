@@ -156,8 +156,7 @@ step_zsh_config() {
 		read -p "Press enter to continue..." -n1 -s
 		message -i "Applying zsh config file..."
 		script_log_step_execution_now
-		source $HOME/.zshrc >/dev/null || error ${FUNCNAME[0]} $LINENO "Failed to apply zsh config file" 1
-		message -s "zsh config file applied"
+		exec zsh
 	}
 
 	message -i "Checking if a zsh config file exists..."
