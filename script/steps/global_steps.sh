@@ -289,7 +289,7 @@ step_git() {
 		else
 			message -i "Setting git email..."
 			git config --global user.email $GIT_EMAIL || script_error ${FUNCNAME[0]} $LINENO "Failed to set git email" 1
-			message -s "Git email set. Skipping..."
+			message -s "Git email set."
 		fi
 	else
 		message -w "Skipping GitHub email save"
