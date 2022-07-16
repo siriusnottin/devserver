@@ -55,7 +55,7 @@ source $SCRIPT_DIR/steps/macos_steps.sh
 # don't forget to add the step to the list of steps in /actions/print_steps.sh
 SETUP_STEPS_AVAILABLE_UBUNTU=(
   timezone
-  update_software
+  update_softwares
   shares
   projects
   default_shell
@@ -75,7 +75,7 @@ SETUP_STEPS_AVAILABLE_UBUNTU=(
 )
 
 SETUP_STEPS_AVAILABLE_MACOS=(
-  update_software
+  update_softwares
   xcode_dev_tools
   install_mac_apps
   code_remote_ssh
