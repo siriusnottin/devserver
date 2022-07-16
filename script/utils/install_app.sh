@@ -55,7 +55,7 @@ install_app() {
 			message -w "$app is already installed. Skipping..."
 		else
 			message -w "$app is not installed. Installing..."
-			eval $install_cmd
+			eval "$install_cmd" || error "Failed to install $app"
 			message -s "$app installed"
 		fi
 
