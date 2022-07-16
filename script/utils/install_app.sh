@@ -51,7 +51,7 @@ install_app() {
 
 		message -i "Checking if $app is installed..."
 		# TODO: sanitize eval before using it
-		if eval "$is_installed $app" &>/dev/null; then
+		if eval "$is_installed" &>/dev/null; then
 			message -w "$app is already installed. Skipping..."
 		else
 			message -w "$app is not installed. Installing..."
