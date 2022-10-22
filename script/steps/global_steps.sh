@@ -80,13 +80,13 @@ step_default_shell() {
 		return 0
 	fi
 
-		install_app $OS zsh
+	install_app $OS zsh
 
-		message -i "Changing default shell to zsh..."
-		chsh -s $(which zsh) || script_error ${FUNCNAME[0]} ${LINENO} "Could not change default shell to zsh" 1
-		message -s "Default shell changed"
-		message -i "Starting zsh..."
-		script_log_step_execution_now
+	message -i "Changing default shell to zsh..."
+	chsh -s $(which zsh) || script_error ${FUNCNAME[0]} ${LINENO} "Could not change default shell to zsh" 1
+	message -s "Default shell changed"
+	message -i "Starting zsh..."
+	script_log_step_execution_now
 	exec zsh -l "exec $HOME/.zshrc"
 }
 
@@ -141,7 +141,7 @@ step_zsh_config() {
 
 	create_zsh_config() {
 		message -i "Creating zsh config file..."
-		cp $PARENT_SCRIPT_DIR/.zshrc-$OS $HOME/.zshrc || script_error ${FUNCNAME[0]} $LINENO "Failed to create zsh config file" 1
+		cp $PARENT_SCRIPT_DIR/.zshrc $HOME/.zshrc || script_error ${FUNCNAME[0]} $LINENO "Failed to create zsh config file" 1
 		message -s "zsh config file created"
 		sep
 		message -c "Please wait for zsh to reload..."
@@ -162,7 +162,7 @@ step_zsh_config() {
 	message -i "Checking if a zsh config file exists..."
 	if [ -f "$HOME/.zshrc" ]; then
 		# it's the same file, so we don't need to create it
-		if cmp -s "$PARENT_SCRIPT_DIR/.zshrc-$OS" "$HOME/.zshrc"; then
+		if cmp -s "$PARENT_SCRIPT_DIR/.zshrc" "$HOME/.zshrc"; then
 			message -w "zsh config file already exists and is the same as the one in the repo. Skipping..."
 		else # it's a different file, so we need to back it up and create the new one
 			message -i "zsh config file already exists and is different from the one in the repo."
