@@ -80,13 +80,13 @@ step_default_shell() {
 		return 0
 	fi
 
-		install_app $OS zsh
+	install_app $OS zsh
 
-		message -i "Changing default shell to zsh..."
-		chsh -s $(which zsh) || script_error ${FUNCNAME[0]} ${LINENO} "Could not change default shell to zsh" 1
-		message -s "Default shell changed"
-		message -i "Starting zsh..."
-		script_log_step_execution_now
+	message -i "Changing default shell to zsh..."
+	chsh -s $(which zsh) || script_error ${FUNCNAME[0]} ${LINENO} "Could not change default shell to zsh" 1
+	message -s "Default shell changed"
+	message -i "Starting zsh..."
+	script_log_step_execution_now
 	exec zsh -l "exec $HOME/.zshrc"
 }
 
