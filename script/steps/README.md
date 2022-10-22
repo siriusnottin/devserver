@@ -80,7 +80,7 @@ Install NVM.
 
 ---
 
-## MacOS
+## MacOS only steps
 
 ### xcode_dev_tools (setup)
 
@@ -102,7 +102,7 @@ Install the Vs Code Remote SSH extension.
 
 ---
 
-## Ubuntu
+## Ubuntu only steps
 
 ### timezone (setup)
 
