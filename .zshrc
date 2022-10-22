@@ -132,7 +132,7 @@ if [[ $OS == macos ]]; then
   # GitHub
   alias gho="gh repo view -w"
 
-fi
+fi # end macos
 
 # React
 cra() {
