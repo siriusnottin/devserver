@@ -7,17 +7,16 @@ script_log_step_execution_now() {
 }
 
 step_last_exec_time_elapsed_min() {
-  # if the step was executed, we return the time elapsed since last execution
   # arg1: step name
-  # return: time elapsed in minutes
+  # return: time elapsed in minutes of a defined function.
   if [ ! -f $last_exit_fn_log ]; then
     script_error ${FUNCNAME[0]} ${LINENO} "File $last_exit_fn_log does not exist" 1
   elif [ -z "$1" ]; then
     script_error ${FUNCNAME[0]} ${LINENO} "Step name cannot be empty" 1
   fi
 
-  local step_last_exit_time="$(grep "$1" $last_exit_fn_log | tail -1 | awk '{print $2}')"
-  local step_last_exit_time="$(date -d "$step_last_exit_time" +%s)"
+  local step_last_exit_time="$(grep "$1" $last_exit_fn_log | tail -1 | awk '{print $2}')" # get the time and the date of the function that was the last to exit.
+  local step_last_exit_time="$(date -d "$step_last_exit_time" +%s)"                       # transform the text into a unix timestamp
 
   [ -z ${step_last_exit_time// /} ] && exit 0
 
