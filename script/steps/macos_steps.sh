@@ -118,6 +118,7 @@ step_install_mac_apps() {
   )
 
   local apps=(
+    1password/tap/1password-cli
     homeassistant-cli
   )
 

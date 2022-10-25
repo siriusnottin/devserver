@@ -107,6 +107,9 @@ if [[ $OS == macos ]]; then
 
   alias g='git'
 
+  eval "$(op completion zsh)"
+  compdef _op op
+
   alias sync='./sync.sh'
 
   # =================== Spotify ===============================
