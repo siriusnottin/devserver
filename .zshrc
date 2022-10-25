@@ -1,7 +1,7 @@
 # detect on which system we are running on (ubuntu or macos)
 if [ -f /etc/os-release ]; then
   source /etc/os-release
-  OS=$ID
+  OS=$ID # ubuntu
 elif [ -f /usr/bin/sw_vers ]; then
   OS="macos"
 fi
@@ -17,6 +17,7 @@ fi
   git clone --depth 1 -- \
     https://github.com/marlonrichert/zsh-snap.git ~/.zsh-plugins/zsh-snap
 
+# Start Znap
 source ~/.zsh-plugins/zsh-snap/znap.zsh
 ###
 
