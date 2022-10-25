@@ -107,6 +107,35 @@ My setup is the same as their example (for now):
 - local: local tmux profile: `tmux -CC new -A -s main`
 - devserver: devserver tmux profile: `ssh -t devserver 'tmux -CC new -A -s main'`
 
+### Export variables for hass-cli
+
+[home-assistant-ecosystem/home-assistant-cli: Command-line tool for Home Assistant](https://github.com/home-assistant-ecosystem/home-assistant-cli)
+
+[1Password CLI](https://developer.1password.com/docs/cli) is required.
+
+```bash
+# op item get 'Home Assistant' --vault Personal --fields label=local_ip # doesn't work…
+
+# first export the HA local URL to the variable for the cli to use
+export HASS_SERVER="$(op item get 'Home Assistant' --vault Personal | grep 'local_ip' | awk '{print $2}')"
+
+# then export and inject the personal token, also for the cli!
+export HASS_TOKEN_REF="op://Personal/Home Assistant/hass_cli_token"
+export HASS_TOKEN="$(op run --no-masking -- printenv HASS_TOKEN_REF)"
+```
+
+Test it with:
+
+```bash
+$ hass-cli state list | head -n 2 >/dev/null && echo ok || echo failed
+ok
+```
+
+```bash
+  # Toggle my workspace speaker
+  hass-cli service call homeassistant.toggle --arguments entity_id=switch.enceinte_bureau_salon >/dev/null
+```
+
 ## Todo
 
 - [X] Make a script.

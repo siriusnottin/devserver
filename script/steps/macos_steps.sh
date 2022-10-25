@@ -123,6 +123,7 @@ step_install_mac_apps() {
     iterm2
     visual-studio-code
     bartender
+    homeassistant-cli
   )
 
   sep -l "Installing Mac Apps"

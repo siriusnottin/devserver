@@ -83,6 +83,9 @@ znap source lukechilds/zsh-nvm
 
 if [[ $OS == macos ]]; then
 
+  # Home Assistant CLI
+  eval "$(_HASS_CLI_COMPLETE=source_zsh hass-cli)"
+
   # use gnu-sed instead of the mac osx sed
   alias sed=gsed
 
