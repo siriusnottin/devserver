@@ -253,39 +253,54 @@ step_git() {
 	# Default branch name
 	read -e -p "Git branch name [main]: " GIT_BRANCH
 	GIT_BRANCH=${GIT_BRANCH:-"main"}
-	message -i "Setting default branch name..."
-	git config --global init.defaultBranch "$GIT_BRANCH" || script_error ${FUNCNAME[0]} $LINENO "Failed to set default branch name" 1
-	message -s "Default branch name set"
+	if [[ $(git config --global --get init.defaultBranch) == $GIT_BRANCH ]]; then
+		message -w "Default branch name already set. Skipping..."
+	else
+		message -i "Setting up default branch name..."
+		git config --global init.defaultBranch "$GIT_BRANCH" || script_error ${FUNCNAME[0]} $LINENO "Failed to set default branch name to $GIT_BRANCH" 1
+		message -s "Default branch name set"
+	fi
+
+	print_text_brackets() {
+		[[ -n ${1// /} ]] && printf " [%s]" "$1" || return 0
+	}
 
 	# User name
 	get_user_full_name() {
-		if git config --global --get user.name; then
-			return 0
-		elif getent passwd "$(whoami)" | cut -d ':' -f 5; then
-			return 0
-		fi
+		# Try to get and print the user's full name.
+		local commands=(
+			"git config --global --get user.name"              # Git
+			"getent passwd $(whoami) | cut -d ':' -f 5"        # Ubuntu
+			"id -P $(stat -f%Su /dev/console) | cut -d : -f 8" # MacOS
+		)
+		for command in "${commands[@]}"; do
+			local result="$(eval $command 2>/dev/null)"
+			[[ -n $result ]] && printf "%s" "$result" && return 0
+		done
 	}
 
-	read -e -p "Git user name: " -i "$(get_user_full_name)" GIT_USER_NAME
+	read -e -p "Git user name$(print_text_brackets "$(get_user_full_name)"): " GIT_USER_NAME
+	GIT_USER_NAME=${GIT_USER_NAME:-"$(get_user_full_name)"}
 
 	if [[ $(git config --global --get user.name) = "$GIT_USER_NAME" ]]; then
 		message -w "Git user name already set. Skipping..."
 	else
 		message -i "Setting up git user name"
-		git config --global user.name "$GIT_USER_NAME" || script_error ${FUNCNAME[0]} $LINENO "Failed to set git user name" 1
+		git config --global --replace-all user.name "$GIT_USER_NAME" || script_error ${FUNCNAME[0]} $LINENO "Failed to set git user name to $GIT_USER_NAME" 1
 		message -s "Git user name set"
 	fi
 
 	# Email
 	message -i "Go to https://github.com/settings/emails and copy your email address you wanna use for git"
-	read -e -p "Git default email: " -i "$(git config --global --get user.email)" GIT_EMAIL
+	read -e -p "Git default email:$(print_text_brackets $(git config --global --get user.email))" GIT_EMAIL
+	GIT_EMAIL=${GIT_EMAIL:-$(git config --global --get user.email)}
 	read -e -p "Do you want to save it to your global git configuration? (y/N)" -n 1 -r -s REPLY
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
 		if [[ $(git config --global --get user.email) = "$GIT_EMAIL" ]]; then
-			message -i "Git email already set. Skipping..."
+			message -w "Git email already set. Skipping..."
 		else
 			message -i "Setting git email..."
-			git config --global user.email $GIT_EMAIL || script_error ${FUNCNAME[0]} $LINENO "Failed to set git email" 1
+			git config --global --replace-all user.email "$GIT_EMAIL" || script_error ${FUNCNAME[0]} $LINENO "Failed to set git email to $GIT_EMAIL" 1
 			message -s "Git email set."
 		fi
 	else
