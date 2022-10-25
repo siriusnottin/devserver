@@ -70,8 +70,7 @@ esac
 ###
 
 # https://github.com/roots/trellis-cli#virtualenv
-znap function _trellis trellis 'eval "$(trellis shell-init zsh)"'
-compctl -K _trellis trellis
+eval "$(trellis shell-init zsh)"
 
 znap function _pyenv pyenv 'eval "$( pyenv init - --no-rehash )"'
 compctl -K _pyenv pyenv
