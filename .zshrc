@@ -135,6 +135,35 @@ if [[ $OS == macos ]]; then
     esac
   }
 
+  bureau() {
+    # toggle the speaker in the office and automatally (un)switch the system audio device
+    # See: https://github.com/home-assistant-ecosystem/home-assistant-cli
+    # See: https://www.home-assistant.io/docs/scripts/service-calls/
+
+    [[ $OS != macos ]] && printf "ERROR: Your system is not supported. (%s)" "$OS" && return 1
+
+    BUREAU_SPEAKER_STATE="$(hass-cli --columns=state --no-headers state get switch.enceinte_bureau_salon)"
+    BUREAU_AUDIO_DEVICE="OWC Thunderbolt 3 Audio Device"
+
+    turn_on() {
+      printf '%s\n' 'turning the speaker on...'
+      hass-cli service call homeassistant.turn_on --arguments entity_id=switch.enceinte_bureau_salon >/dev/null
+      export BUREAU_CURRENT_AUDIO_DEVICE="$(SwitchAudioSource -c)"
+      printf "Switching device from %s to %s...\n" "$BUREAU_CURRENT_AUDIO_DEVICE" "$BUREAU_AUDIO_DEVICE"
+      SwitchAudioSource -f cli -s "$BUREAU_AUDIO_DEVICE" >/dev/null
+    }
+
+    turn_off() {
+      printf "%s\n" "turning the speaker off..."
+      hass-cli service call homeassistant.turn_off --arguments entity_id=switch.enceinte_bureau_salon >/dev/null
+      printf "Switching device from %s to %s...\n" "$BUREAU_AUDIO_DEVICE" "$BUREAU_CURRENT_AUDIO_DEVICE"
+      SwitchAudioSource -f cli -s "$BUREAU_CURRENT_AUDIO_DEVICE" >/dev/null
+    }
+
+    [[ $BUREAU_SPEAKER_STATE = off ]] && turn_on || turn_off
+
+  }
+
   # GitHub
   alias gho="gh repo view -w"
 
