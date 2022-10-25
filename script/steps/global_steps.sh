@@ -366,9 +366,16 @@ step_composer() {
 		sudo mv composer.phar /usr/local/bin/composer
 		return $RESULT
 	}
-	message -i "Installing Composer..."
-	composer_install_script || script_error ${FUNCNAME[0]} $LINENO "Failed to install Composer" 1
-	message -s "Composer installed"
+
+	# Checki if composer is installed
+	if [[ $(composer --version) == "Composer version"* ]]; then
+		message -w "Composer already installed. Skipping..."
+	else
+		message -i "Installing Composer..."
+		composer_install_script || script_error ${FUNCNAME[0]} $LINENO "Failed to install Composer" 1
+		message -s "Composer installed"
+	fi
+
 }
 
 step_nvm() {
