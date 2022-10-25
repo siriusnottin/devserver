@@ -97,8 +97,8 @@ UPDATE_STEPS_AVAILABLE_UBUNTU=(update_softwares_cleanup znap homebrew nvm node)
 UPDATE_STEPS_AVAILABLE_MACOS=(update_softwares_cleanup znap homebrew nvm node)
 
 # https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference
-array_name=$(echo "${action}_STEPS_AVAILABLE_${OS}" | tr '[:lower:]' '[:upper:]')
-ACTION_STEPS_AVAILABLE="${array_name}[*]"
+array_var_name=$(echo "${action}_STEPS_AVAILABLE_${OS}" | tr '[:lower:]' '[:upper:]') # TODO: convert to lower case on var declaration not here.
+ACTION_STEPS_AVAILABLE="${array_var_name}[*]"
 ACTION_STEPS_AVAILABLE=(${!ACTION_STEPS_AVAILABLE})
 
 do_user_steps() {
