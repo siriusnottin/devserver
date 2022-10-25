@@ -186,6 +186,13 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # loads nvm bash_completion
 
+# do not register commands preceded by a space
+export HISTCONTROL=ignorespace
+
+function forget() {
+  history -d $(history | awk 'END{print $1-1}')
+}
+
 # ==========================================================
 # Fig post block. Keep at the bottom of this file.
 [[ $OS == macos && -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
