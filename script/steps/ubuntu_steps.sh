@@ -96,13 +96,11 @@ step_php() {
   #############################################################################
 
   message -i "Installing PHP..."
-  install_app ubuntu software-properties-common ca-certificates apt-transport-https
+  install_app ubuntu software-properties-common
+  export LC_ALL=C.UTF-8
   message -i "Adding PHP repository..."
   sudo add-apt-repository ppa:ondrej/php -y >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to add PHP repository" 1
   message -i "Updating package list..."
   sudo apt update >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to update package list" 1
-  message -i "Upgrading packages..."
-  sudo apt upgrade -y >/dev/null || script_error ${FUNCNAME[0]} $LINENO "Failed to upgrade packages" 1
-  install_app ubuntu --no-install-recommends php8.0 php8.0-cli php8.0-simplexml
-
+  install_app ubuntu php8.0-BCMath php8.0-Ctype php8.0-Fileinfo php8.0-JSON php8.0-Mbstring php8.0-Tokenizer php8.0-XML # See: https://docs.roots.io/acorn/2.x/installation/#server-requirements
 }
