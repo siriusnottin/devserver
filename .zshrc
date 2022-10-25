@@ -63,14 +63,13 @@ macos)
   znap eval brew-shellenv 'brew shellenv'
   ;;
 ubuntu)
-  znap function _brew brew 'eval brew "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
-  compctl -K _brew brew
+  znap eval brew '/home/linuxbrew/.linuxbrew/bin/brew shellenv'
   ;;
 esac
 ###
 
 # https://github.com/roots/trellis-cli#virtualenv
-eval "$(trellis shell-init zsh)"
+znap eval trellis 'trellis shell-init zsh'
 
 znap function _pyenv pyenv 'eval "$( pyenv init - --no-rehash )"'
 compctl -K _pyenv pyenv
