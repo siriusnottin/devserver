@@ -183,8 +183,8 @@ export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
 znap eval iterm2 'curl -fsSL https://iterm2.com/shell_integration/zsh'
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # loads nvm bash_completion
 
 # ==========================================================
 # Fig post block. Keep at the bottom of this file.
