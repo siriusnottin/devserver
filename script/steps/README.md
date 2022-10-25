@@ -60,10 +60,6 @@ Install GitHub CLI, start the login process, and setup Git.
 
 Install Trellis.
 
-### ngrok (setup)
-
-Install ngrok.
-
 ### composer (setup)
 
 Install Composer.

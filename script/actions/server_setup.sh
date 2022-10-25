@@ -65,7 +65,6 @@ SETUP_STEPS_AVAILABLE_UBUNTU=(
   github
   git
   trellis
-  ngrok
   php
   composer
   nvm
@@ -87,7 +86,6 @@ SETUP_STEPS_AVAILABLE_MACOS=(
   github
   git
   trellis
-  ngrok
   composer
   nvm
   node
