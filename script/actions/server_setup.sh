@@ -93,8 +93,8 @@ SETUP_STEPS_AVAILABLE_MACOS=(
   additional_software
 )
 
-UPDATE_STEPS_AVAILABLE_UBUNTU=(update_software_dist znap homebrew nvm node)
-UPDATE_STEPS_AVAILABLE_MACOS=(update_software_dist znap homebrew nvm node)
+UPDATE_STEPS_AVAILABLE_UBUNTU=(update_softwares_cleanup znap homebrew nvm node)
+UPDATE_STEPS_AVAILABLE_MACOS=(update_softwares_cleanup znap homebrew nvm node)
 
 # https://stackoverflow.com/questions/11180714/how-to-iterate-over-an-array-using-indirect-reference
 array_name=$(echo "${action}_STEPS_AVAILABLE_${OS}" | tr '[:lower:]' '[:upper:]')

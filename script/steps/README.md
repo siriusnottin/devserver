@@ -27,7 +27,7 @@ Update all software on the current system.
 
 Create a project folder in the user home directory.
 
-### update_software_dist (on-demand)
+### update_softwares_cleanup (on-demand)
 
 Update the system.
 
