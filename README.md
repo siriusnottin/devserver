@@ -89,15 +89,6 @@ This command will clone the repo and install the script both locally and remotel
 
 See the official documentation : [VS Code remote overview](https://code.visualstudio.com/docs/remote/remote-overview)
 
-1. Install the [Remote Development extension pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
-2. If you have [multiple users on the vm](https://code.visualstudio.com/docs/remote/ssh#_ssh-host-setup). On the local VS Code settings, set this to true:
-
-```json
-"remote.SSH.remoteServerListenOnSocket": true
-```
-
-✅ **At this point, you should be able to connect VS Code.**
-
 ### iTerm2 + tmux = ❤️
 
 I just followed the [iTerm2 documentation](https://iterm2.com/documentation-tmux-integration.html).
@@ -139,12 +130,13 @@ ok
 ## Todo
 
 - [X] Make a script.
-- [X] Use [Starship theme](https://github.com/starship/starship): I did not succeded setting up this theme with znap.
+- [X] Use [Starship theme](https://github.com/starship/starship)
 - [X] Fix the commands that can't be executed from this script. ([Issue #1](https://github.com/siriusnottin/devserver/issues/1))
 - [ ] Add a command to create a new vm.
 - [ ] List all my mac apps to install them using brew.
 - [ ] GitHub action to check the steps.
 - [ ] Refactor.
+- [ ] Rewrite using Python? [#6](https://github.com/siriusnottin/devserver/issues/6)
 
 ## Reflexion on the setup
 
@@ -161,3 +153,5 @@ I don't know yet if I should use `rsync` instead of an `unraid share` mounted on
 For me in the absolute, it's ideal to use the unraid share so I can setup the smallest size for the vDisk and let the rest be dynamic ; for now I am experiencing some performance issues with Git…
 
 **Quick links:** [Home Lab project](https://siriusrenove.fr/lab) • [Renovation project](https://siriusrenove.fr) • [Website](https://nottin.me) • [Twitter](https://twitter.com/siriusnottin)
+
+BUG: LC LOCALES: <https://stackoverflow.com/a/46946414>
