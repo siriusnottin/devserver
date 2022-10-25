@@ -118,11 +118,6 @@ step_install_mac_apps() {
   )
 
   local apps=(
-    google-chrome
-    chrome-cli
-    iterm2
-    visual-studio-code
-    bartender
     homeassistant-cli
   )
 
