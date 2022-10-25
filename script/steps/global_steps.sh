@@ -331,6 +331,10 @@ step_trellis() {
 	install_app brew roots/tap/trellis-cli
 	message -s "Trellis CLI installed"
 
+	sep
+	sep -l "Python"
+	sep
+
 	# https://virtualenv.pypa.io/en/latest/installation.html
 	# https://gist.github.com/frfahim/73c0fad6350332cef7a653bcd762f08d
 	sep
