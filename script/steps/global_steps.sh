@@ -306,6 +306,15 @@ step_git() {
 	else
 		message -w "Skipping GitHub email save"
 	fi
+
+	# Default editor
+	message -i "Setting up git editor to Visual Studio Code..."
+	if [[ $(git config --global --get core.editor) == "code --wait" ]]; then
+		message -w "Git editor already set. Skipping..."
+	else
+		git config --global --replace-all core.editor "code --wait" || script_error ${FUNCNAME[0]} $LINENO "Failed to set git editor to Visual Studio Code" 1
+		message -s "Git editor set to Visual Studio Code"
+	fi
 }
 
 step_trellis() {
