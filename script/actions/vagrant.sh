@@ -16,8 +16,9 @@ update_project() {
 }
 
 update_plugins() {
-  # do only this update if it's a mac
-  if [[ $OS = "macos" ]]; then
+  # do only this update if the os is ubuntu
+  if [[ $OS = "ubuntu" ]]; then # BUG: It seems that if the os is not ubuntu, the script will stop here.
+    vagrant plugin install vagrant-hostmanager || script_error ${FUNCNAME[0]} ${LINENO} "Failed to install vagrant-hostmanager" 1
     # https://www.vagrantup.com/docs/cli/plugin#local-1
     vagrant plugin install --local vagrant-libvirt || script_error ${FUNCNAME[0]} ${LINENO} "Failed to update vagrant-libvirt" 1
     message -s "Plugins updated"
