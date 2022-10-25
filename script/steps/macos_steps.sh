@@ -102,6 +102,16 @@ step_install_mac_apps() {
 
   export HOMEBREW_NO_AUTO_UPDATE=1
 
+  local casks=(
+    1password/tap/1password-cli
+    fig
+    font-hack-nerd-font
+  )
+
+  local formulae=(
+    homeassistant-cli
+  )
+
   local qlplugins=(
     qlcolorcode
     qlstephen
@@ -117,17 +127,17 @@ step_install_mac_apps() {
     suspicious-package
   )
 
-  local apps=(
-    1password/tap/1password-cli
-    homeassistant-cli
-  )
-
-  sep -l "Installing Mac Apps"
+  sep -l "Installing Mac Apps via Homebrew..."
   sep
-  install_app macos --cask "${apps[*]}"
+  install_app macos --cask "${casks[*]}"
   sep
 
-  sep -l "Installing Quick Look Plugins"
+  sep -l "Installing Homebrew formulae..."
+  sep
+  install_app macos "${formulae[*]}"
+  sep
+
+  sep -l "Installing Quick Look Plugins..."
   sep
   install_app macos --cask "${qlplugins[*]}"
   sep
