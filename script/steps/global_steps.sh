@@ -209,16 +209,14 @@ step_homebrew() {
 
 		case $OS in
 		macos)
-			znap eval brew-shellenv 'brew shellenv'
+			message -i "Installing Homebrew packages..."
+			install_app macos gcc
 			;;
-		linux)
-			znap eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" >/dev/null
+		ubuntu)
+			message -i "Installing Homebrew packages..."
+			install_app ubuntu build-essential
 			;;
 		esac
-
-		message -i "Installing Homebrew packages..."
-		install_app ubuntu build-essential
-		install_app macos gcc
 		message -s "Homebrew packages installed"
 	fi
 }
@@ -331,7 +329,7 @@ step_trellis() {
 	# VirtualBox (https://www.virtualbox.org/wiki/Linux_Downloads)
 	# See also: https://linuxize.com/post/how-to-install-virtualbox-on-ubuntu-20-04/
 	message -i "VirtualBox"
-	install_app brew virtualbox
+	install_app brew virtualbox || install_app ubuntu virtualbox virtualbox-ext-pack
 	message -s "VirtualBox installed ($(vboxmanage --version))"
 	message -i "Changing the default Virtualbox VM location"
 	# vboxmanage list systemproperties | grep folder
@@ -339,7 +337,8 @@ step_trellis() {
 	sep
 	# Vagrant (https://www.vagrantup.com/downloads)
 	message -i "Vagrant"
-	install_app brew vagrant && install_app ubuntu ruby-dev
+	install_app brew vagrant || install_app ubuntu vagrant
+	install_app ubuntu ruby-dev
 	message -s "Vagrant installed ($(vagrant -v))"
 	message -i "Don't forget to run \"$SCRIPTNAME vagrant\" in your vagrant projects or anywhere else to successfully run vagrant"
 }
