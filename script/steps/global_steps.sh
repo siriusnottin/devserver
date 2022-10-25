@@ -45,7 +45,7 @@ step_update_softwares_cleanup() {
 	step "Software update"
 	#############################################################################
 
-	step_update_software
+	step_update_softwares
 	message -i "Cleaning up..."
 	case $OS in
 	ubuntu)
